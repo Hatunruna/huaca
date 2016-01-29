@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
   static constexpr unsigned INITIAL_WIDTH = 1024;
   static constexpr unsigned INITIAL_HEIGHT = 576;
 
-  game::WindowSettings settings(INITIAL_WIDTH, INITIAL_HEIGHT, "Game template (version " GAME_VERSION ")");
+  game::WindowSettings settings(INITIAL_WIDTH, INITIAL_HEIGHT, "Huaca (version " GAME_VERSION ")");
   game::WindowGeometry geometry(INITIAL_WIDTH, INITIAL_HEIGHT);
 
   sf::RenderWindow window;
