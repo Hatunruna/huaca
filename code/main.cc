@@ -36,40 +36,6 @@
 static constexpr float AREA_WIDTH = 100.0f;
 static constexpr float AREA_HEIGHT = 70.0f;
 
-class Background : public game::Entity {
-public:
-
-  virtual void render(sf::RenderWindow& window) override {
-    sf::RectangleShape shape({ AREA_WIDTH, AREA_HEIGHT });
-    shape.setOrigin(AREA_WIDTH / 2, AREA_HEIGHT / 2);
-    shape.setPosition(0.0f, 0.0f);
-    shape.setFillColor(sf::Color(0xCC, 0xCC, 0xCC));
-    window.draw(shape);
-  }
-
-};
-
-class Minimap : public game::Entity {
-public:
-  Minimap(game::WindowGeometry& geometry)
-  : m_geometry(geometry)
-  {
-
-  }
-
-  virtual void render(sf::RenderWindow& window) override {
-    sf::Vector2f pos = m_geometry.getCornerPosition({ -74.0f, -74.0f });
-
-    sf::RectangleShape shape({ 64, 64 });
-    shape.setPosition(pos);
-    shape.setFillColor(sf::Color(0xCC, 0x00, 0x00));
-    window.draw(shape);
-  }
-
-private:
-  game::WindowGeometry& m_geometry;
-};
-
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
 
@@ -113,12 +79,13 @@ int main(int argc, char *argv[]) {
   // add entities
 
   game::EntityManager mainEntities;
-  Background bg;
-  mainEntities.addEntity(bg);
+
+
+
 
   game::EntityManager hudEntities;
-  Minimap map(geometry);
-  hudEntities.addEntity(map);
+
+
 
   // main loop
   game::Clock clock;

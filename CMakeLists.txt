@@ -4,8 +4,8 @@ project(GAME
   LANGUAGES C CXX
 )
 
-set(PROJECT_NAME "TODO")
-set(PROJECT_VERSION 0.3.0)
+set(PROJECT_NAME "huaca")
+set(PROJECT_VERSION 0.1.0)
 
 include(GNUInstallDirs)
 
