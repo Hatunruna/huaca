@@ -32,10 +32,13 @@
 #include "game/WindowSettings.h"
 
 #include "local/Events.h"
+#include "local/GroundManager.h"
 #include "local/Hero.h"
 #include "local/ItemHUD.h"
+#include "local/LevelGenerator.h"
 #include "local/Singletons.h"
 #include "local/Timer.h"
+#include "local/WallManager.h"
 
 #include "config.h"
 
@@ -111,10 +114,19 @@ int main(int argc, char *argv[]) {
   portalAction.addKeyControl(sf::Keyboard::Space); // AZERTY and QWERTY
   actions.addAction(portalAction);
 
+  // Generate first level
+  huaca::LevelGenerator levelGenerator;
+  levelGenerator.generateFirst();
+
+  // Generate the managers
+  huaca::GroundManager groundManager = levelGenerator.getGroundManager();
+  huaca::WallManager wallManager = levelGenerator.getWallManager();
 
   // add entities
 
   game::EntityManager mainEntities;
+  mainEntities.addEntity(groundManager);
+  mainEntities.addEntity(wallManager);
 
   huaca::Hero hero({ 1280.0f, 1280.0f });
   mainEntities.addEntity(hero);
