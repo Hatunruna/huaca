@@ -3,6 +3,8 @@
 
 #include "game/Entity.h"
 
+#include "Events.h"
+
 namespace huaca {
 
   class WallManager : public game::Entity {
@@ -10,6 +12,8 @@ namespace huaca {
     WallManager();
 
     void addWall(sf::Vector2f coordTile, std::size_t tile);
+
+    game::EventStatus onHeroPositionEvent(game::EventType type, game::Event *event);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;

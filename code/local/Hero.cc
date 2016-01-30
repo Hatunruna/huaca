@@ -1,7 +1,9 @@
 #include "Hero.h"
 
+#include <iostream>
 #include <cassert>
 
+#include "Constants.h"
 #include "Events.h"
 #include "Singletons.h"
 
@@ -68,14 +70,25 @@ namespace huaca {
 
     HeroPositionEvent event;
     event.pos = m_pos;
+
+    //std::cout << "Before: " << m_pos.x << " x " << m_pos.y << std::endl;
     gEventManager().triggerEvent(&event);
 
     m_pos = event.pos;
+
+    //std::cout << "After: " << m_pos.x << " x " << m_pos.y << std::endl;
   }
 
   void Hero::render(sf::RenderWindow& window) {
     assert(m_currentAnimation);
     m_currentAnimation->renderAt(window, m_pos, 0.0f, 64.0f / TEXTURE_SIZE);
+
+    sf::RectangleShape hitbox;
+    hitbox.setPosition(m_pos.x - TILE_SIZE / 4.0f, m_pos.y);
+    hitbox.setSize({TILE_SIZE / 2.0f, TILE_SIZE / 2.0f});
+    hitbox.setFillColor(sf::Color::White);
+
+    window.draw(hitbox);
   }
 
 }
