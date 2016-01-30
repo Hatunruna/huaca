@@ -1,9 +1,9 @@
 # Huaca
 
-This project is part of Global Game Jam 2016 (a game creation contest) a game about a woman who must activate interrupters in the right order to complete the ritual and get to the next level. She can use keys to opens doors and portals to get to said interrupters.
+This project is part of Global Game Jam 2016 (a game creation contest) a game about an inca woman who must activate interrupters in the right order to complete the ritual and get to the next level of the temple. She can use keys to open doors and portals to get to said interrupters.
 
 
-A Huaca (wak'a) is an object that represents something revered, typically a monument. Some of them have been associated with veneration and ritual.
+A Huaca (wak'a) is an object that represents something revered, typically a monument. Some of them have been associated with veneration and ritual. (Source Wikipedia : https://en.wikipedia.org/wiki/Huaca)
 
 ## Requirements
 
