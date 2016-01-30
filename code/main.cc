@@ -43,7 +43,6 @@
 #include "config.h"
 
 static constexpr float AREA_WIDTH = 640.0f;
-static constexpr float AREA_HEIGHT = 640.0f;
 
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
@@ -70,7 +69,7 @@ int main(int argc, char *argv[]) {
   // add cameras
   game::CameraManager cameras;
 
-  game::FixedRatioCamera mainCamera(window, AREA_WIDTH, AREA_HEIGHT);
+  game::FlexibleCamera mainCamera(window, AREA_WIDTH);
   cameras.addCamera(mainCamera);
 
   game::HeadsUpCamera hudCamera(window);
