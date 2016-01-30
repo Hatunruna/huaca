@@ -12,6 +12,7 @@ namespace huaca {
   static constexpr int TEXTURE_SIZE = 256;
 
   static constexpr float SPEED = 100.0f;
+  static constexpr float FRAME_TIME = 0.05f;
 
   Hero::Hero(const sf::Vector2f& initialPos)
   : game::Entity(3)
@@ -20,6 +21,12 @@ namespace huaca {
   , m_isRunning(false)
   , m_staticRight("Static right")
   , m_staticLeft("Static left")
+  , m_staticUp("Static up")
+  , m_staticDown("Static down")
+  , m_runRight("Run right")
+  , m_runLeft("Run left")
+  , m_runUp("Run up")
+  , m_runDown("Run down")
   , m_currentAnimation(&m_staticRight)
   {
     {
@@ -31,6 +38,44 @@ namespace huaca {
       auto texture = gResourceManager().getTexture("static_left.png");
       m_staticLeft.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
     }
+
+    {
+      auto texture = gResourceManager().getTexture("static_up.png");
+      m_staticUp.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("static_down.png");
+      m_staticDown.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("run_right.png");
+      for (int i = 0; i < 12; ++i) {
+        m_runRight.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
+      }
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("run_left.png");
+      for (int i = 0; i < 12; ++i) {
+        m_runLeft.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
+      }
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("run_up.png");
+      for (int i = 0; i < 12; ++i) {
+        m_runUp.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
+      }
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("run_down.png");
+      for (int i = 0; i < 12; ++i) {
+        m_runDown.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
+      }
+    }
   }
 
   void Hero::update(float dt) {
@@ -38,22 +83,32 @@ namespace huaca {
       case Direction::RIGHT:
         if (m_isRunning) {
           m_pos.x += SPEED * dt;
+          m_currentAnimation = &m_runRight;
         }
-
-        m_currentAnimation = &m_staticRight;
+        else {
+          m_currentAnimation = &m_staticRight;
+        }
+        
         break;
 
       case Direction::LEFT:
         if (m_isRunning) {
           m_pos.x -= SPEED * dt;
+          m_currentAnimation = &m_runLeft;
+        }
+        else {
+          m_currentAnimation = &m_staticLeft;
         }
 
-        m_currentAnimation = &m_staticLeft;
         break;
 
       case Direction::UP:
         if (m_isRunning) {
           m_pos.y -= SPEED * dt;
+          m_currentAnimation = &m_runUp;
+        }
+        else {
+          m_currentAnimation = &m_staticUp;
         }
 
         break;
@@ -61,6 +116,10 @@ namespace huaca {
       case Direction::DOWN:
         if (m_isRunning) {
           m_pos.y += SPEED * dt;
+          m_currentAnimation = &m_runDown;
+        }
+        else {
+          m_currentAnimation = &m_staticDown;
         }
 
         break;
@@ -71,12 +130,9 @@ namespace huaca {
     HeroPositionEvent event;
     event.pos = m_pos;
 
-    //std::cout << "Before: " << m_pos.x << " x " << m_pos.y << std::endl;
     gEventManager().triggerEvent(&event);
 
     m_pos = event.pos;
-
-    //std::cout << "After: " << m_pos.x << " x " << m_pos.y << std::endl;
   }
 
   void Hero::render(sf::RenderWindow& window) {
