@@ -37,6 +37,9 @@ namespace huaca {
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
 
+
+    static sf::FloatRect hitboxFromPosition(const sf::Vector2f& pos);
+
   private:
     sf::Vector2f m_pos;
 

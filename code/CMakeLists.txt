@@ -11,8 +11,10 @@ add_executable(huaca
   local/GroundManager.cc
   local/Hero.cc
   local/LevelGenerator.cc
+  local/ItemHUD.cc
   local/ItemManager.cc
   local/Singletons.cc
+  local/Timer.cc
   local/WallManager.cc
   # base
   game/AssetManager.cc

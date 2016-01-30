@@ -23,10 +23,10 @@ namespace huaca {
     quad[3].position = sf::Vector2f(coordTile.x * TILE_SIZE, (coordTile.y + 1) * TILE_SIZE);
 
     // Define color (DEBUG)
-    quad[0].color = sf::Color::Yellow;
-    quad[1].color = sf::Color::Yellow;
-    quad[2].color = sf::Color::Yellow;
-    quad[3].color = sf::Color::Yellow;
+    quad[0].color = sf::Color::White;
+    quad[1].color = sf::Color::White;
+    quad[2].color = sf::Color::White;
+    quad[3].color = sf::Color::White;
 
     for (int i = 0; i < 4; ++i) {
       m_vertices.append(quad[i]);
@@ -48,10 +48,10 @@ namespace huaca {
     quad[3].position = sf::Vector2f(coordTile.x * TILE_SIZE, (coordTile.y + 1) * TILE_SIZE);
 
     // Define color (DEBUG)
-    quad[0].color = sf::Color::Cyan;
-    quad[1].color = sf::Color::Cyan;
-    quad[2].color = sf::Color::Cyan;
-    quad[3].color = sf::Color::Cyan;
+    quad[0].color = sf::Color(0x80, 0x80, 0x80);
+    quad[1].color = sf::Color(0x80, 0x80, 0x80);
+    quad[2].color = sf::Color(0x80, 0x80, 0x80);
+    quad[3].color = sf::Color(0x80, 0x80, 0x80);
 
     for (int i = 0; i < 4; ++i) {
       m_vertices.append(quad[i]);
