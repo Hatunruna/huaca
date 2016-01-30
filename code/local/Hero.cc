@@ -93,9 +93,9 @@ namespace huaca {
 
   sf::FloatRect Hero::hitboxFromPosition(const sf::Vector2f& pos) {
     sf::FloatRect rect;
-    rect.left = pos.x - TILE_SIZE / 4;
-    rect.top = pos.y;
-    rect.width = TILE_SIZE / 2;
+    rect.left = pos.x - TILE_SIZE / 6;
+    rect.top = pos.y + TILE_SIZE / 12;
+    rect.width = TILE_SIZE / 3;
     rect.height = TILE_SIZE / 2;
     return rect;
   }

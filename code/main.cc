@@ -90,22 +90,26 @@ int main(int argc, char *argv[]) {
   game::Action leftAction("Go left");
   leftAction.addKeyControl(sf::Keyboard::Q); // AZERTY
   leftAction.addKeyControl(sf::Keyboard::A); // QWERTY
+  leftAction.addKeyControl(sf::Keyboard::Left);
   leftAction.setContinuous();
   actions.addAction(leftAction);
 
   game::Action rightAction("Go right");
   rightAction.addKeyControl(sf::Keyboard::D); // AZERTY and QWERTY
+  rightAction.addKeyControl(sf::Keyboard::Right);
   rightAction.setContinuous();
   actions.addAction(rightAction);
 
   game::Action upAction("Go up");
   upAction.addKeyControl(sf::Keyboard::Z); // AZERTY
   upAction.addKeyControl(sf::Keyboard::W); // QWERTY
+  upAction.addKeyControl(sf::Keyboard::Up);
   upAction.setContinuous();
   actions.addAction(upAction);
 
   game::Action downAction("Go down");
   downAction.addKeyControl(sf::Keyboard::S); // AZERTY and QWERTY
+  downAction.addKeyControl(sf::Keyboard::Down);
   downAction.setContinuous();
   actions.addAction(downAction);
 
