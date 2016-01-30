@@ -20,6 +20,8 @@ namespace huaca {
   , m_isRunning(false)
   , m_staticRight("Static right")
   , m_staticLeft("Static left")
+  , m_staticUp("Static up")
+  , m_staticDown("Static down")
   , m_currentAnimation(&m_staticRight)
   {
     {
@@ -30,6 +32,16 @@ namespace huaca {
     {
       auto texture = gResourceManager().getTexture("static_left.png");
       m_staticLeft.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("static_up.png");
+      m_staticUp.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("static_down.png");
+      m_staticDown.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
     }
   }
 
@@ -56,6 +68,7 @@ namespace huaca {
           m_pos.y -= SPEED * dt;
         }
 
+        m_currentAnimation = &m_staticUp;
         break;
 
       case Direction::DOWN:
@@ -63,6 +76,7 @@ namespace huaca {
           m_pos.y += SPEED * dt;
         }
 
+        m_currentAnimation = &m_staticDown;
         break;
     }
 

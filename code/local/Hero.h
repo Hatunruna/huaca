@@ -52,6 +52,8 @@ namespace huaca {
 
     game::Animation m_staticRight;
     game::Animation m_staticLeft;
+    game::Animation m_staticUp;
+    game::Animation m_staticDown;
     game::Animation *m_currentAnimation;
   };
 
