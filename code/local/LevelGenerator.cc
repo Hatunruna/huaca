@@ -142,20 +142,50 @@ namespace huaca {
     }
 
     generateRooms(random, 0, SIZE, 0, SIZE);
+    generateItems(random);
 
     for (int i = 0; i < SIZE; ++i) {
       for (int j = 0; j < SIZE; ++j) {
         if (m_ground[i][j].type == CellType::WALL) {
           std::cout << '#';
         } else {
-          std::cout << ' ';
+          sf::Vector2i curr(j, i);
+
+          if (curr == m_heroPos) {
+            std::cout << '@';
+          } else if (curr == m_rune0Pos) {
+            std::cout << '0';
+          } else if (curr == m_rune1Pos) {
+            std::cout << '1';
+          } else if (curr == m_rune2Pos) {
+            std::cout << '2';
+          } else if (curr == m_rune3Pos) {
+            std::cout << '3';
+          } else if (curr == m_key0Pos) {
+            std::cout << 'a';
+          } else if (curr == m_key1Pos) {
+            std::cout << 'b';
+          } else if (curr == m_key2Pos) {
+            std::cout << 'c';
+          } else if (curr == m_key3Pos) {
+            std::cout << 'd';
+          } else if (curr == m_door0Pos) {
+            std::cout << 'A';
+          } else if (curr == m_door1Pos) {
+            std::cout << 'B';
+          } else if (curr == m_door2Pos) {
+            std::cout << 'C';
+          } else if (curr == m_door3Pos) {
+            std::cout << 'D';
+          } else {
+            std::cout << ' ';
+          }
         }
       }
 
       std::cout << '\n';
     }
 
-    generateItems(random);
   }
 
   static constexpr int SIZE_MIN = 12;
@@ -318,12 +348,109 @@ namespace huaca {
 
     std::vector<sf::Vector2i> path;
 
-//     do {
-//
-//
-//     } while (!stack.empty());
+    sf::Vector2i dirs[4] = {
+      {  0,  1 },
+      {  0, -1 },
+      {  1,  0 },
+      { -1,  0 },
+    };
 
+    do {
+      sf::Vector2i curr = stack.back();
+      Cell& currCell = m_ground[curr.y][curr.x];
+      assert(currCell.color == Cell::GREY);
+      currCell.color = Cell::BLACK;
+      stack.pop_back();
+      path.push_back(curr);
 
+      for (int k = 0; k < 10; ++k) {
+        int i = random.computeUniformInteger(0, 3);
+        int j = random.computeUniformInteger(0, 3);
+        std::swap(dirs[i], dirs[j]);
+      }
+
+      for (int k = 0; k < 4; ++k) {
+        sf::Vector2i next = curr + dirs[k];
+
+        Cell& nextCell = m_ground[next.y][next.x];
+
+        if (nextCell.type == CellType::GROUND && nextCell.color == Cell::WHITE) {
+          nextCell.color = Cell::GREY;
+          stack.push_back(next);
+        }
+      }
+
+    } while (!stack.empty());
+
+    m_key0Pos  = m_key1Pos  = m_key2Pos  = m_key3Pos  = sf::Vector2i(0, 0);
+    m_door0Pos = m_door1Pos = m_door2Pos = m_door3Pos = sf::Vector2i(0, 0);
+
+    std::cout << "path length: " << path.size() << '\n';
+
+    int keyIndexMin = path.size() / 4;
+    int keyIndexMax = 3 * path.size() / 4;
+
+    int index;
+
+    // key 0
+    do {
+      index = random.computeUniformInteger(keyIndexMin, keyIndexMax);
+    } while (collidesWithRunes(path[index].x, path[index].y) || collidesWithKeysOrDoors(path[index]));
+
+    m_key0Pos = path[index];
+
+    // door0
+    m_door0Pos = getDoor(random, index + 1, path);
+
+//     std::cout << "key0: " << m_key0Pos.x << ',' << m_key0Pos.y << ' ' << index << '\n';
+//     std::cout << "key0: " << m_key0Pos.x << ',' << m_key0Pos.y << ' ' << index << '\n';
+
+    // key 1
+    do {
+      index = random.computeUniformInteger(keyIndexMin, keyIndexMax);
+    } while (collidesWithRunes(path[index].x, path[index].y) || collidesWithKeysOrDoors(path[index]));
+
+    m_key1Pos = path[index];
+
+    // door1
+    m_door1Pos = getDoor(random, index + 1, path);
+
+    // key 2
+    do {
+      index = random.computeUniformInteger(keyIndexMin, keyIndexMax);
+    } while (collidesWithRunes(path[index].x, path[index].y) || collidesWithKeysOrDoors(path[index]));
+
+    m_key2Pos = path[index];
+
+    // door2
+    m_door2Pos = getDoor(random, index + 1, path);
+
+    // key 3
+    do {
+      index = random.computeUniformInteger(keyIndexMin, keyIndexMax);
+    } while (collidesWithRunes(path[index].x, path[index].y) || collidesWithKeysOrDoors(path[index]));
+
+    m_key3Pos = path[index];
+
+    // door3
+    m_door3Pos = getDoor(random, index + 1, path);
+  }
+
+  sf::Vector2i LevelGenerator::getDoor(game::Random& random, int index, const std::vector<sf::Vector2i>& path) {
+    int doorRange = path.size() - index;
+    int doorIndexMin = index + doorRange / 3;
+    int doorIndexMax = index + 2 * doorRange / 3;
+
+    do {
+      index = random.computeUniformInteger(doorIndexMin, doorIndexMax);
+    } while (collidesWithRunes(path[index].x, path[index].y) || collidesWithKeysOrDoors(path[index]));
+
+    while (!isCorridor(path[index]) || collidesWithRunes(path[index].x, path[index].y) || collidesWithKeysOrDoors(path[index])) {
+      index++;
+    }
+
+    assert(static_cast<std::size_t>(index) < path.size());
+    return path[index];
   }
 
   bool LevelGenerator::collidesWithRunes(int x, int y) {
@@ -346,6 +473,51 @@ namespace huaca {
     }
 
     return false;
+  }
+
+  bool LevelGenerator::collidesWithKeysOrDoors(const sf::Vector2i& pos) {
+    if (pos == m_key0Pos) {
+      return true;
+    }
+
+    if (pos == m_key1Pos) {
+      return true;
+    }
+
+    if (pos == m_key2Pos) {
+      return true;
+    }
+
+    if (pos == m_key3Pos) {
+      return true;
+    }
+
+    if (pos == m_door0Pos) {
+      return true;
+    }
+
+    if (pos == m_door1Pos) {
+      return true;
+    }
+
+    if (pos == m_door2Pos) {
+      return true;
+    }
+
+    if (pos == m_door3Pos) {
+      return true;
+    }
+
+    return false;
+  }
+
+  bool LevelGenerator::isCorridor(const sf::Vector2i& pos) {
+    Cell& n = m_ground[pos.y - 1][pos.x];
+    Cell& s = m_ground[pos.y + 1][pos.x];
+    Cell& w = m_ground[pos.y][pos.x - 1];
+    Cell& e = m_ground[pos.y][pos.x + 1];
+
+    return n.type == s.type && w.type == e.type && n.type != w.type;
   }
 
   GroundManager LevelGenerator::getGroundManager() const {

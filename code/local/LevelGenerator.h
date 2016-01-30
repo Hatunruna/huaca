@@ -57,6 +57,10 @@ namespace huaca {
     void generateItems(game::Random& random);
 
     bool collidesWithRunes(int x, int y);
+    bool collidesWithKeysOrDoors(const sf::Vector2i& pos);
+    bool isCorridor(const sf::Vector2i& pos);
+
+    sf::Vector2i getDoor(game::Random& random, int index, const std::vector<sf::Vector2i>& path);
 
   };
 
