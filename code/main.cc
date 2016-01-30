@@ -148,6 +148,18 @@ int main(int argc, char *argv[]) {
       geometry.update(event);
     }
 
+    if (rightAction.isActive()) {
+      hero.goRight();
+    } else if (leftAction.isActive()) {
+      hero.goLeft();
+    } else if (upAction.isActive()) {
+      hero.goRight();
+    } else if (downAction.isActive()) {
+      hero.goDown();
+    } else {
+      hero.stop();
+    }
+
     // update
     auto elapsed = clock.restart();
     auto dt = elapsed.asSeconds();
