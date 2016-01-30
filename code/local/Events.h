@@ -11,6 +11,12 @@ namespace huaca {
     sf::Vector2f pos;
   };
 
+  struct HeroRunningEvent : public game::Event {
+    static constexpr game::EventType type = "HeroRunningEvent"_type;
+
+    bool isRunning;
+  };
+
 }
 
 

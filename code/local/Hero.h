@@ -1,8 +1,6 @@
 #ifndef LOCAL_HERO_H
 #define LOCAL_HERO_H
 
-#include <SFML/Audio.hpp>
-
 #include "game/Entity.h"
 #include "game/Animation.h"
 
@@ -64,9 +62,6 @@ namespace huaca {
     game::Animation m_runUp;
     game::Animation m_runDown;
     game::Animation *m_currentAnimation;
-
-    sf::Sound m_stepSound;
-    bool m_stepPlaying;
   };
 
 }

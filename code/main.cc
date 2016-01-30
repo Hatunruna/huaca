@@ -37,6 +37,7 @@
 #include "local/ItemHUD.h"
 #include "local/LevelGenerator.h"
 #include "local/Singletons.h"
+#include "local/SoundManager.h"
 #include "local/Timer.h"
 #include "local/WallManager.h"
 
@@ -124,6 +125,7 @@ int main(int argc, char *argv[]) {
   // Generate the managers
   huaca::GroundManager groundManager = levelGenerator.getGroundManager();
   huaca::WallManager wallManager = levelGenerator.getWallManager();
+  huaca::SoundManager soundManager;
 
   // add entities
 

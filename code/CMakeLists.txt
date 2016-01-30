@@ -14,6 +14,7 @@ add_executable(huaca
   local/ItemHUD.cc
   local/ItemManager.cc
   local/Singletons.cc
+  local/SoundManager.cc
   local/Timer.cc
   local/WallManager.cc
   # base

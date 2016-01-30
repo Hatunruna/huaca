@@ -28,7 +28,6 @@ namespace huaca {
   , m_runUp("Run up")
   , m_runDown("Run down")
   , m_currentAnimation(&m_staticRight)
-  , m_stepPlaying(false)
   {
     {
       auto texture = gResourceManager().getTexture("images/static_right.png");
@@ -89,12 +88,6 @@ namespace huaca {
         m_runDown.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
       }
     }
-
-    {
-      auto buffer = gResourceManager().getSoundBuffer("sounds/step.wav");
-      m_stepSound.setBuffer(*buffer);
-      m_stepSound.setLoop(true);
-    }
   }
 
   void Hero::update(float dt) {
@@ -146,25 +139,23 @@ namespace huaca {
     }
 
     // Manage audio
-    if (m_isRunning) {
-      if (!m_stepPlaying) {
-        m_stepPlaying = true;
-        m_stepSound.play();
-      }
-    }
-    else {
-      m_stepPlaying = false;
-      m_stepSound.stop();
+    {
+      HeroRunningEvent event;
+      event.isRunning = m_isRunning;
+
+      gEventManager().triggerEvent(&event);
     }
 
     m_currentAnimation->update(dt);
 
-    HeroPositionEvent event;
-    event.pos = m_pos;
+    {
+      HeroPositionEvent event;
+      event.pos = m_pos;
 
-    gEventManager().triggerEvent(&event);
+      gEventManager().triggerEvent(&event);
 
-    m_pos = event.pos;
+      m_pos = event.pos;
+    }
   }
 
   void Hero::render(sf::RenderWindow& window) {
