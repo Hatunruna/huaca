@@ -1,12 +1,15 @@
-# Game skeleton
+# Huaca
 
-This project is a game skeleton for [game jams](http://en.wikipedia.org/wiki/Game_jam). It's meant to be simple and hackable and provides many usual classes that are found in games. It's **not** a game engine. It is based on [SFML2](http://sfml-dev.org/) and [Boost](http://www.boost.org/).
+This project is part of Global Game Jam 2016 (a game creation contest) a game about a woman who must activate interrupters in the right order to complete the ritual and get to the next level. She can use keys to opens doors and portals to get to said interrupters.
+
+
+A Huaca (wak'a) is an object that represents something revered, typically a monument. Some of them have been associated with veneration and ritual.
 
 ## Requirements
 
-`gameskel` is written in C++11 so you need a C++11 compiler like [Clang](http://clang.llvm.org/) or [GCC](http://gcc.gnu.org/).
+`Huaca` is written in C++11 so you need a C++11 compiler like [Clang](http://clang.llvm.org/) or [GCC](http://gcc.gnu.org/).
 
-`gameskel` also needs external libraries:
+`Huaca` also needs external libraries:
 
 * [SFML2](http://www.sfml-dev.org/)
 * [Boost.Filesystem](http://www.boost.org/libs/filesystem/)
@@ -16,11 +19,10 @@ This project is a game skeleton for [game jams](http://en.wikipedia.org/wiki/Gam
 
 You can download the sources directly from github:
 
-    git clone https://github.com/jube/gameskel.git
-
+    git clone https://github.com/Hatunruna/huaca.git
 Then you have to use [CMake](http://www.cmake.org/) to build the project:
 
-    cd gameskel
+    cd huaca
     mkdir build
     cd build
     cmake ..
@@ -36,7 +38,13 @@ The best way to use this skel is to copy the game directory in your tree. Or to 
 
 ## Authors
 
+- Arthur Hugeat, arthur dot hugeat at univ dash fcomte dot fr
+- Benjamin Goodwin, benjamin.d.goodwin@gmail.com
+- Célia Dehors, celia.dehors@gmail.com
 - Julien Bernard, julien dot bernard at univ dash fcomte dot fr
+- Gérard Taiclet (Noctilucas),
+- Roxanne Herbstmeyer,
+- Sophie Teixeira.
 
 
 ## Copyright

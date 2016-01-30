@@ -8,7 +8,7 @@ namespace huaca {
 
   class Hero : public game::Entity {
   public:
-    Hero();
+    Hero(const sf::Vector2f& initialPos);
 
     void goRight() {
       m_isRunning = true;
