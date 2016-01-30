@@ -9,6 +9,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DI
 add_executable(huaca
   main.cc
   local/GroundManager.cc
+  local/Hero.cc
   local/LevelGenerator.cc
   local/ItemManager.cc
   local/WallManager.cc

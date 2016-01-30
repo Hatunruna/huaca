@@ -31,10 +31,12 @@
 #include "game/WindowGeometry.h"
 #include "game/WindowSettings.h"
 
+#include "local/Hero.h"
+
 #include "config.h"
 
-static constexpr float AREA_WIDTH = 100.0f;
-static constexpr float AREA_HEIGHT = 70.0f;
+static constexpr float AREA_WIDTH = 640.0f;
+static constexpr float AREA_HEIGHT = 640.0f;
 
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
@@ -80,7 +82,8 @@ int main(int argc, char *argv[]) {
 
   game::EntityManager mainEntities;
 
-
+  huaca::Hero hero;
+  mainEntities.addEntity(hero);
 
 
   game::EntityManager hudEntities;
@@ -125,7 +128,7 @@ int main(int argc, char *argv[]) {
     hudEntities.update(dt);
 
     // render
-    window.clear(sf::Color::White);
+    window.clear(sf::Color::Black);
 
     mainCamera.configure(window);
     mainEntities.render(window);
