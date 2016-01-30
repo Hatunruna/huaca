@@ -11,7 +11,6 @@ namespace huaca {
 
   class LevelGenerator {
   public:
-
     void generateFirst();
     void generateNew(game::Random& random);
 
@@ -32,7 +31,7 @@ namespace huaca {
       std::size_t tile;
     };
 
-    Cell m_grid[SIZE][SIZE];
+    Cell m_ground[SIZE][SIZE];
   };
 
 

@@ -31,10 +31,13 @@
 #include "game/WindowGeometry.h"
 #include "game/WindowSettings.h"
 
+#include "local/LevelGenerator.h"
+#include "local/WallManager.h"
+
 #include "config.h"
 
-static constexpr float AREA_WIDTH = 100.0f;
-static constexpr float AREA_HEIGHT = 70.0f;
+static constexpr float AREA_WIDTH = 2560.0f;
+static constexpr float AREA_HEIGHT = 2560.0f;
 
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
@@ -76,10 +79,17 @@ int main(int argc, char *argv[]) {
   fullscreenAction.addKeyControl(sf::Keyboard::F);
   actions.addAction(fullscreenAction);
 
+  // Generate first level
+  huaca::LevelGenerator levelGenerator;
+  levelGenerator.generateFirst();
+
+  // Generate the managers
+  huaca::WallManager wallManager = levelGenerator.getWallManager();
+
   // add entities
 
   game::EntityManager mainEntities;
-
+  mainEntities.addEntity(wallManager);
 
 
 
