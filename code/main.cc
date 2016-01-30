@@ -32,6 +32,7 @@
 #include "game/WindowSettings.h"
 
 #include "local/Hero.h"
+#include "local/Singletons.h"
 
 #include "config.h"
 
@@ -40,6 +41,10 @@ static constexpr float AREA_HEIGHT = 640.0f;
 
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
+
+  // set up singletons
+  game::SingletonStorage<game::EventManager> storageForEventManager(huaca::gEventManager);
+  game::SingletonStorage<game::ResourceManager> storageForResourceManager(huaca::gResourceManager);
 
   // initialize
 
@@ -54,8 +59,7 @@ int main(int argc, char *argv[]) {
   window.setKeyRepeatEnabled(false);
 
   // load resources
-  game::ResourceManager resources;
-  resources.addSearchDir(GAME_DATADIR);
+  huaca::gResourceManager().addSearchDir(GAME_DATADIR);
 
   // add cameras
   game::CameraManager cameras;
@@ -77,6 +81,29 @@ int main(int argc, char *argv[]) {
   game::Action fullscreenAction("Fullscreen");
   fullscreenAction.addKeyControl(sf::Keyboard::F);
   actions.addAction(fullscreenAction);
+
+  game::Action leftAction("Go left");
+  leftAction.addKeyControl(sf::Keyboard::Q); // AZERTY
+  leftAction.addKeyControl(sf::Keyboard::A); // QWERTY
+  actions.addAction(leftAction);
+
+  game::Action rightAction("Go right");
+  rightAction.addKeyControl(sf::Keyboard::D); // AZERTY and QWERTY
+  actions.addAction(rightAction);
+
+  game::Action upAction("Go up");
+  upAction.addKeyControl(sf::Keyboard::Z); // AZERTY
+  upAction.addKeyControl(sf::Keyboard::W); // QWERTY
+  actions.addAction(upAction);
+
+  game::Action downAction("Go down");
+  downAction.addKeyControl(sf::Keyboard::S); // AZERTY and QWERTY
+  actions.addAction(downAction);
+
+  game::Action portalAction("Portal");
+  portalAction.addKeyControl(sf::Keyboard::Space); // AZERTY and QWERTY
+  actions.addAction(portalAction);
+
 
   // add entities
 
