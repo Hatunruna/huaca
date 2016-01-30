@@ -33,6 +33,7 @@
 
 #include "local/Events.h"
 #include "local/Hero.h"
+#include "local/ItemHUD.h"
 #include "local/Singletons.h"
 #include "local/Timer.h"
 
@@ -123,6 +124,9 @@ int main(int argc, char *argv[]) {
 
   huaca::Timer timer(80);
   hudEntities.addEntity(timer);
+
+  huaca::ItemHUD itemHud;
+  hudEntities.addEntity(itemHud);
 
   // initialisation
 
