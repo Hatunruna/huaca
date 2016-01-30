@@ -32,6 +32,7 @@
 #include "game/WindowSettings.h"
 
 #include "local/Events.h"
+#include "local/GroundManager.h"
 #include "local/Hero.h"
 #include "local/LevelGenerator.h"
 #include "local/Singletons.h"
@@ -116,11 +117,13 @@ int main(int argc, char *argv[]) {
   levelGenerator.generateFirst();
 
   // Generate the managers
+  huaca::GroundManager groundManager = levelGenerator.getGroundManager();
   huaca::WallManager wallManager = levelGenerator.getWallManager();
 
   // add entities
 
   game::EntityManager mainEntities;
+  mainEntities.addEntity(groundManager);
   mainEntities.addEntity(wallManager);
 
   huaca::Hero hero({ 1280.0f, 1280.0f });

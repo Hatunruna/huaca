@@ -1,12 +1,14 @@
 #include "LevelGenerator.h"
 
+#include <cassert>
+
 namespace huaca {
 
   void LevelGenerator::generateFirst() {
     for (unsigned int i = 0; i < SIZE; ++i) {
       for (unsigned int j = 0; j < SIZE; ++j) {
         Cell cell;
-        if (i % 2 == 0) {
+        if (j % 2 == 0) {
           cell.type = CellType::WALL;
         }
         else {
@@ -25,15 +27,24 @@ namespace huaca {
   GroundManager LevelGenerator::getGroundManager() const {
     GroundManager manager;
 
-    /*for (int i = 0; i < SIZE; ++i) {
-      for (int j = 0; j < SIZE; ++i) {
+    for (unsigned int i = 0; i < SIZE; ++i) {
+      for (unsigned int j = 0; j < SIZE; ++j) {
         Cell cell = m_ground[i][j];
 
-        if (cell.type == GROUND) {
+        switch (cell.type) {
+        case CellType::GROUND:
+          manager.addGround(sf::Vector2f(i, j), cell.tile);
+          break;
 
+        case CellType::WALL:
+          manager.addHalfWall(sf::Vector2f(i, j), cell.tile);
+          break;
+
+        default:
+          assert(false);
         }
       }
-    }*/
+    }
 
     return manager;
   }

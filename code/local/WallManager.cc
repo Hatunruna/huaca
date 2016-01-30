@@ -6,7 +6,8 @@
 
 namespace huaca {
   WallManager::WallManager() 
-  : m_vertices(sf::Quads) {
+  : game::Entity(4)
+  , m_vertices(sf::Quads) {
   }
 
   void WallManager::addWall(sf::Vector2f coordTile, std::size_t tile) {
