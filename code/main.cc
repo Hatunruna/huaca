@@ -31,16 +31,22 @@
 #include "game/WindowGeometry.h"
 #include "game/WindowSettings.h"
 
+#include "local/Hero.h"
 #include "local/LevelGenerator.h"
+#include "local/Singletons.h"
 #include "local/WallManager.h"
 
 #include "config.h"
 
-static constexpr float AREA_WIDTH = 2560.0f;
-static constexpr float AREA_HEIGHT = 2560.0f;
+static constexpr float AREA_WIDTH = 640.0f;
+static constexpr float AREA_HEIGHT = 640.0f;
 
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
+
+  // set up singletons
+  game::SingletonStorage<game::EventManager> storageForEventManager(huaca::gEventManager);
+  game::SingletonStorage<game::ResourceManager> storageForResourceManager(huaca::gResourceManager);
 
   // initialize
 
@@ -55,8 +61,7 @@ int main(int argc, char *argv[]) {
   window.setKeyRepeatEnabled(false);
 
   // load resources
-  game::ResourceManager resources;
-  resources.addSearchDir(GAME_DATADIR);
+  huaca::gResourceManager().addSearchDir(GAME_DATADIR);
 
   // add cameras
   game::CameraManager cameras;
@@ -79,6 +84,28 @@ int main(int argc, char *argv[]) {
   fullscreenAction.addKeyControl(sf::Keyboard::F);
   actions.addAction(fullscreenAction);
 
+  game::Action leftAction("Go left");
+  leftAction.addKeyControl(sf::Keyboard::Q); // AZERTY
+  leftAction.addKeyControl(sf::Keyboard::A); // QWERTY
+  actions.addAction(leftAction);
+
+  game::Action rightAction("Go right");
+  rightAction.addKeyControl(sf::Keyboard::D); // AZERTY and QWERTY
+  actions.addAction(rightAction);
+
+  game::Action upAction("Go up");
+  upAction.addKeyControl(sf::Keyboard::Z); // AZERTY
+  upAction.addKeyControl(sf::Keyboard::W); // QWERTY
+  actions.addAction(upAction);
+
+  game::Action downAction("Go down");
+  downAction.addKeyControl(sf::Keyboard::S); // AZERTY and QWERTY
+  actions.addAction(downAction);
+
+  game::Action portalAction("Portal");
+  portalAction.addKeyControl(sf::Keyboard::Space); // AZERTY and QWERTY
+  actions.addAction(portalAction);
+
   // Generate first level
   huaca::LevelGenerator levelGenerator;
   levelGenerator.generateFirst();
@@ -91,11 +118,11 @@ int main(int argc, char *argv[]) {
   game::EntityManager mainEntities;
   mainEntities.addEntity(wallManager);
 
+  huaca::Hero hero;
+  mainEntities.addEntity(hero);
 
 
   game::EntityManager hudEntities;
-
-
 
   // main loop
   game::Clock clock;
@@ -128,6 +155,18 @@ int main(int argc, char *argv[]) {
       geometry.update(event);
     }
 
+    if (rightAction.isActive()) {
+      hero.goRight();
+    } else if (leftAction.isActive()) {
+      hero.goLeft();
+    } else if (upAction.isActive()) {
+      hero.goRight();
+    } else if (downAction.isActive()) {
+      hero.goDown();
+    } else {
+      hero.stop();
+    }
+
     // update
     auto elapsed = clock.restart();
     auto dt = elapsed.asSeconds();
@@ -135,7 +174,7 @@ int main(int argc, char *argv[]) {
     hudEntities.update(dt);
 
     // render
-    window.clear(sf::Color::White);
+    window.clear(sf::Color::Black);
 
     mainCamera.configure(window);
     mainEntities.render(window);
