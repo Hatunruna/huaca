@@ -118,8 +118,11 @@ int main(int argc, char *argv[]) {
   actions.addAction(portalAction);
 
   // Generate first level
+  game::Random random;
+
   huaca::LevelGenerator levelGenerator;
-  levelGenerator.generateFirst();
+//   levelGenerator.generateFirst();
+  levelGenerator.generateNew(random);
 
   // Generate the managers
   huaca::GroundManager groundManager = levelGenerator.getGroundManager();

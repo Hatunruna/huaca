@@ -32,6 +32,11 @@ namespace huaca {
     };
 
     Cell m_ground[SIZE][SIZE];
+
+  private:
+
+    void generateRooms(game::Random& random, std::size_t iMin, std::size_t iMax, std::size_t jMin, std::size_t jMax);
+
   };
 
 
