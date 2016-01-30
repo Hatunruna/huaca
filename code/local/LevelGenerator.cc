@@ -6,12 +6,9 @@
 namespace huaca {
 
   void LevelGenerator::generateFirst() {
-    static constexpr int MIN = SIZE / 3;
-    static constexpr int MAX = 2 * SIZE / 3;
-
     // Fill with a wall
-    for (unsigned int i = 0; i < SIZE; ++i) {
-      for (unsigned int j = 0; j < SIZE; ++j) {
+    for (int i = 0; i < SIZE; ++i) {
+      for (int j = 0; j < SIZE; ++j) {
         Cell cell;
 
         cell.type = CellType::WALL;
@@ -25,8 +22,8 @@ namespace huaca {
     
     const int SHIFT = 10;
     //Salle 1
-    for (unsigned int i = 0 + SHIFT; i < 7 + SHIFT; ++i) {
-      for (unsigned int j = 0 + SHIFT; j < 5 + SHIFT; ++j) {
+    for (int i = 0 + SHIFT; i < 7 + SHIFT; ++i) {
+      for (int j = 0 + SHIFT; j < 5 + SHIFT; ++j) {
         Cell cell;
 
         cell.type = CellType::GROUND;
@@ -34,7 +31,7 @@ namespace huaca {
         m_ground[i][j] = cell;
       }
       //Salle 4
-      for (unsigned int j = 8 + SHIFT; j < 13 + SHIFT; ++j) {
+      for (int j = 8 + SHIFT; j < 13 + SHIFT; ++j) {
         Cell cell;
 
         cell.type = CellType::GROUND;
@@ -44,8 +41,8 @@ namespace huaca {
     }
 
     //Salle 2
-    for (unsigned int i = 10 + SHIFT; i < 17 + SHIFT; ++i) {
-      for (unsigned int j = 0 + SHIFT; j < 5 + SHIFT; ++j) {
+    for (int i = 10 + SHIFT; i < 17 + SHIFT; ++i) {
+      for (int j = 0 + SHIFT; j < 5 + SHIFT; ++j) {
         Cell cell;
 
         cell.type = CellType::GROUND;
@@ -53,7 +50,7 @@ namespace huaca {
         m_ground[i][j] = cell;
       }
       //Salle 5
-      for (unsigned int j = 8 + SHIFT; j < 13 + SHIFT; ++j) {
+      for (int j = 8 + SHIFT; j < 13 + SHIFT; ++j) {
         Cell cell;
 
         cell.type = CellType::GROUND;
@@ -63,8 +60,8 @@ namespace huaca {
     }
 
     //Salle 3
-    for (unsigned int i = 20 + SHIFT; i < 27 + SHIFT; ++i) {
-      for (unsigned int j = 8 + SHIFT; j < 13 + SHIFT; ++j) {
+    for (int i = 20 + SHIFT; i < 27 + SHIFT; ++i) {
+      for (int j = 8 + SHIFT; j < 13 + SHIFT; ++j) {
         Cell cell;
 
         cell.type = CellType::GROUND;
@@ -72,7 +69,7 @@ namespace huaca {
         m_ground[i][j] = cell;
       }
       //Salle 6
-      for (unsigned int j = 0 + SHIFT; j < 5 + SHIFT; ++j) {
+      for (int j = 0 + SHIFT; j < 5 + SHIFT; ++j) {
         Cell cell;
 
         cell.type = CellType::GROUND;
@@ -82,7 +79,7 @@ namespace huaca {
     }
 
     //Couloir 1
-    for (unsigned int i = 7 + SHIFT; i < 10 + SHIFT; ++i) {
+    for (int i = 7 + SHIFT; i < 10 + SHIFT; ++i) {
       Cell cell;
 
       cell.type = CellType::GROUND;
@@ -96,7 +93,7 @@ namespace huaca {
       m_ground[i][10 + SHIFT] = cell;
     }
     //Couloir 2
-    for (unsigned int i = 17 + SHIFT; i < 20 + SHIFT; ++i) {
+    for (int i = 17 + SHIFT; i < 20 + SHIFT; ++i) {
         Cell cell;
 
         cell.type = CellType::GROUND;
@@ -111,7 +108,7 @@ namespace huaca {
     }
 
     //Couloir 3
-    for (unsigned int j = 5 + SHIFT; j < 8 + SHIFT; ++j) {
+    for (int j = 5 + SHIFT; j < 8 + SHIFT; ++j) {
       Cell cell;
 
       cell.type = CellType::GROUND;
@@ -136,16 +133,18 @@ namespace huaca {
   }
 
   void LevelGenerator::generateNew(game::Random& random) {
-    for (std::size_t i = 0; i < SIZE; ++i) {
-      for (std::size_t j = 0; j < SIZE; ++j) {
+    for (int i = 0; i < SIZE; ++i) {
+      for (int j = 0; j < SIZE; ++j) {
         m_ground[i][j].type = CellType::WALL;
+        m_ground[i][j].tile = -1;
+        m_ground[i][j].color = Cell::WHITE;
       }
     }
 
     generateRooms(random, 0, SIZE, 0, SIZE);
 
-    for (std::size_t i = 0; i < SIZE; ++i) {
-      for (std::size_t j = 0; j < SIZE; ++j) {
+    for (int i = 0; i < SIZE; ++i) {
+      for (int j = 0; j < SIZE; ++j) {
         if (m_ground[i][j].type == CellType::WALL) {
           std::cout << '#';
         } else {
@@ -155,14 +154,16 @@ namespace huaca {
 
       std::cout << '\n';
     }
+
+    generateItems(random);
   }
 
-  static constexpr std::size_t SIZE_MIN = 12;
-  static constexpr std::size_t SIZE_PAD = 5;
+  static constexpr int SIZE_MIN = 12;
+  static constexpr int SIZE_PAD = 5;
 
-  void LevelGenerator::generateRooms(game::Random& random, std::size_t iMin, std::size_t iMax, std::size_t jMin, std::size_t jMax) {
-    std::size_t iLength = iMax - iMin;
-    std::size_t jLength = jMax - jMin;
+  void LevelGenerator::generateRooms(game::Random& random, int iMin, int iMax, int jMin, int jMax) {
+    int iLength = iMax - iMin;
+    int jLength = jMax - jMin;
 
     if (iLength < SIZE_MIN && jLength < SIZE_MIN) {
       assert(iLength >= 5);
@@ -196,13 +197,13 @@ namespace huaca {
     }
 
     if (split == VERTICAL) {
-      std::size_t jMid = random.computeUniformInteger(jMin + SIZE_PAD, jMax - SIZE_PAD);
+      int jMid = random.computeUniformInteger(jMin + SIZE_PAD, jMax - SIZE_PAD);
       generateRooms(random, iMin, iMax, jMin, jMid);
       generateRooms(random, iMin, iMax, jMid, jMax);
 
-      std::size_t iMid = iMin + (iMax - iMin) / 2;
+      int iMid = iMin + (iMax - iMin) / 2;
 
-      std::size_t j = jMid;
+      int j = jMid;
 
       while (j < jMax) {
         if (m_ground[iMid][j].type == CellType::GROUND) {
@@ -225,13 +226,13 @@ namespace huaca {
       }
 
     } else {
-      std::size_t iMid = random.computeUniformInteger(iMin + SIZE_PAD, iMax - SIZE_PAD);
+      int iMid = random.computeUniformInteger(iMin + SIZE_PAD, iMax - SIZE_PAD);
       generateRooms(random, iMin, iMid, jMin, jMax);
       generateRooms(random, iMid, iMax, jMin, jMax);
 
-      std::size_t jMid = jMin + (jMax - jMin) / 2;
+      int jMid = jMin + (jMax - jMin) / 2;
 
-      std::size_t i = iMid;
+      int i = iMid;
 
       while (i < iMax) {
         if (m_ground[i][jMid].type == CellType::GROUND) {
@@ -257,11 +258,101 @@ namespace huaca {
 
   }
 
+  void LevelGenerator::generateItems(game::Random& random) {
+    m_rune0Pos = m_rune1Pos = m_rune2Pos = m_rune3Pos = sf::Vector2i(0, 0);
+
+    int x, y;
+
+    // rune 0
+    do {
+      x = random.computeUniformInteger(0, SIZE - 1);
+      y = random.computeUniformInteger(0, SIZE - 1);
+    } while (m_ground[y][x].type != CellType::GROUND || collidesWithRunes(x, y));
+
+    m_rune0Pos = sf::Vector2i(x, y);
+
+    // rune 1
+    do {
+      x = random.computeUniformInteger(0, SIZE - 1);
+      y = random.computeUniformInteger(0, SIZE - 1);
+    } while (m_ground[y][x].type != CellType::GROUND || collidesWithRunes(x, y));
+
+    m_rune1Pos = sf::Vector2i(x, y);
+
+    // rune 2
+    do {
+      x = random.computeUniformInteger(0, SIZE - 1);
+      y = random.computeUniformInteger(0, SIZE - 1);
+    } while (m_ground[y][x].type != CellType::GROUND || collidesWithRunes(x, y));
+
+    m_rune2Pos = sf::Vector2i(x, y);
+
+    // rune 3
+    do {
+      x = random.computeUniformInteger(0, SIZE - 1);
+      y = random.computeUniformInteger(0, SIZE - 1);
+    } while (m_ground[y][x].type != CellType::GROUND || collidesWithRunes(x, y));
+
+    m_rune3Pos = sf::Vector2i(x, y);
+
+    std::cout << "Rune 0: " << m_rune0Pos.x << ',' << m_rune0Pos.y << '\n';
+    std::cout << "Rune 1: " << m_rune1Pos.x << ',' << m_rune1Pos.y << '\n';
+    std::cout << "Rune 2: " << m_rune2Pos.x << ',' << m_rune2Pos.y << '\n';
+    std::cout << "Rune 3: " << m_rune3Pos.x << ',' << m_rune3Pos.y << '\n';
+
+
+    // hero
+    do {
+      x = random.computeUniformInteger(0, SIZE - 1);
+      y = random.computeUniformInteger(0, SIZE - 1);
+    } while (m_ground[y][x].type != CellType::GROUND || collidesWithRunes(x, y));
+
+    m_heroPos = sf::Vector2i(x, y);
+
+    std::cout << "Hero: " << m_heroPos.x << ',' << m_heroPos.y << '\n';
+
+    // DFS
+    std::vector<sf::Vector2i> stack;
+    m_ground[m_heroPos.y][m_heroPos.x].color = Cell::GREY;
+    stack.push_back(m_heroPos);
+
+    std::vector<sf::Vector2i> path;
+
+//     do {
+//
+//
+//     } while (!stack.empty());
+
+
+  }
+
+  bool LevelGenerator::collidesWithRunes(int x, int y) {
+    sf::Vector2i curr(x, y);
+
+    if (curr == m_rune0Pos) {
+      return true;
+    }
+
+    if (curr == m_rune1Pos) {
+      return true;
+    }
+
+    if (curr == m_rune2Pos) {
+      return true;
+    }
+
+    if (curr == m_rune3Pos) {
+      return true;
+    }
+
+    return false;
+  }
+
   GroundManager LevelGenerator::getGroundManager() const {
     GroundManager manager;
 
-    for (unsigned int i = 0; i < SIZE; ++i) {
-      for (unsigned int j = 0; j < SIZE; ++j) {
+    for (int i = 0; i < SIZE; ++i) {
+      for (int j = 0; j < SIZE; ++j) {
         Cell cell = m_ground[i][j];
 
         switch (cell.type) {
@@ -292,8 +383,8 @@ namespace huaca {
   WallManager LevelGenerator::getWallManager() const {
     WallManager manager;
 
-    for (unsigned int i = 0; i < SIZE; ++i) {
-      for (unsigned int j = 0; j < SIZE; ++j) {
+    for (int i = 0; i < SIZE; ++i) {
+      for (int j = 0; j < SIZE; ++j) {
         Cell cell = m_ground[i][j];
 
         if (cell.type == CellType::WALL) {
