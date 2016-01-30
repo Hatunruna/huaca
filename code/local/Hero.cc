@@ -2,14 +2,18 @@
 
 #include <cassert>
 
+#include "Events.h"
 #include "Singletons.h"
 
 namespace huaca {
 
   static constexpr int TEXTURE_SIZE = 256;
 
-  Hero::Hero()
+  static constexpr float SPEED = 100.0f;
+
+  Hero::Hero(const sf::Vector2f& initialPos)
   : game::Entity(3)
+  , m_pos(initialPos)
   , m_dir(Direction::RIGHT)
   , m_isRunning(false)
   , m_staticRight("Static right")
@@ -30,18 +34,43 @@ namespace huaca {
   void Hero::update(float dt) {
     switch (m_dir) {
       case Direction::RIGHT:
+        if (m_isRunning) {
+          m_pos.x += SPEED * dt;
+        }
+
         m_currentAnimation = &m_staticRight;
         break;
+
       case Direction::LEFT:
+        if (m_isRunning) {
+          m_pos.x -= SPEED * dt;
+        }
+
         m_currentAnimation = &m_staticLeft;
         break;
+
       case Direction::UP:
+        if (m_isRunning) {
+          m_pos.y -= SPEED * dt;
+        }
+
         break;
+
       case Direction::DOWN:
+        if (m_isRunning) {
+          m_pos.y += SPEED * dt;
+        }
+
         break;
     }
 
     m_currentAnimation->update(dt);
+
+    HeroPositionEvent event;
+    event.pos = m_pos;
+    gEventManager().triggerEvent(&event);
+
+    m_pos = event.pos;
   }
 
   void Hero::render(sf::RenderWindow& window) {

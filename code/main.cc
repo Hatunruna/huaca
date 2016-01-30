@@ -31,6 +31,7 @@
 #include "game/WindowGeometry.h"
 #include "game/WindowSettings.h"
 
+#include "local/Events.h"
 #include "local/Hero.h"
 #include "local/Singletons.h"
 
@@ -85,19 +86,23 @@ int main(int argc, char *argv[]) {
   game::Action leftAction("Go left");
   leftAction.addKeyControl(sf::Keyboard::Q); // AZERTY
   leftAction.addKeyControl(sf::Keyboard::A); // QWERTY
+  leftAction.setContinuous();
   actions.addAction(leftAction);
 
   game::Action rightAction("Go right");
   rightAction.addKeyControl(sf::Keyboard::D); // AZERTY and QWERTY
+  rightAction.setContinuous();
   actions.addAction(rightAction);
 
   game::Action upAction("Go up");
   upAction.addKeyControl(sf::Keyboard::Z); // AZERTY
   upAction.addKeyControl(sf::Keyboard::W); // QWERTY
+  upAction.setContinuous();
   actions.addAction(upAction);
 
   game::Action downAction("Go down");
   downAction.addKeyControl(sf::Keyboard::S); // AZERTY and QWERTY
+  downAction.setContinuous();
   actions.addAction(downAction);
 
   game::Action portalAction("Portal");
@@ -109,13 +114,21 @@ int main(int argc, char *argv[]) {
 
   game::EntityManager mainEntities;
 
-  huaca::Hero hero;
+  huaca::Hero hero({ 1280.0f, 1280.0f });
   mainEntities.addEntity(hero);
 
 
   game::EntityManager hudEntities;
 
 
+  // initialisation
+
+  huaca::gEventManager().registerHandler<huaca::HeroPositionEvent>([&mainCamera](game::EventType type, game::Event *event) {
+    assert(type == huaca::HeroPositionEvent::type);
+    auto posEvent = static_cast<huaca::HeroPositionEvent*>(event);
+    mainCamera.setCenter(posEvent->pos);
+    return game::EventStatus::KEEP;
+  });
 
   // main loop
   game::Clock clock;
@@ -153,7 +166,7 @@ int main(int argc, char *argv[]) {
     } else if (leftAction.isActive()) {
       hero.goLeft();
     } else if (upAction.isActive()) {
-      hero.goRight();
+      hero.goUp();
     } else if (downAction.isActive()) {
       hero.goDown();
     } else {
