@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Constants.h"
+#include "Hero.h"
 #include "Singletons.h"
 
 namespace huaca {
@@ -124,9 +126,14 @@ namespace huaca {
     }
 
     {
-      std::cout << "ici" << std::endl;
       NewLevelEvent event;
-      event.posHero = {0.0f, 0.0f};
+
+      sf::Vector2f spriteCenter((SHIFT + 3.5) * TILE_SIZE, (SHIFT + 2.5) * TILE_SIZE);
+      sf::FloatRect rect = Hero::hitboxFromPosition(spriteCenter);
+
+      sf::Vector2f hitboxCenter(rect.left + (rect.width / 2.0f), rect.top - (rect.height / 2.0f));
+
+      event.posHero = hitboxCenter;
 
       gEventManager().triggerEvent(&event);
     }

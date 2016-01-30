@@ -119,6 +119,8 @@ int main(int argc, char *argv[]) {
   actions.addAction(portalAction);
 
   huaca::SoundManager soundManager;
+  huaca::Hero hero({ 1280.0f, 1280.0f });
+  
   game::Random random;
 
   // Generate first level
@@ -136,7 +138,6 @@ int main(int argc, char *argv[]) {
   mainEntities.addEntity(groundManager);
   mainEntities.addEntity(wallManager);
 
-  huaca::Hero hero({ 1280.0f, 1280.0f });
   mainEntities.addEntity(hero);
 
 

@@ -4,7 +4,6 @@
 #include <cassert>
 
 #include "Constants.h"
-#include "Events.h"
 #include "Singletons.h"
 
 namespace huaca {
@@ -29,6 +28,7 @@ namespace huaca {
   , m_runDown("Run down")
   , m_currentAnimation(&m_staticRight)
   {
+    // Load resources
     {
       auto texture = gResourceManager().getTexture("images/static_right.png");
       texture->setSmooth(true);
@@ -88,6 +88,9 @@ namespace huaca {
         m_runDown.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
       }
     }
+
+    // Register events
+    gEventManager().registerHandler<NewLevelEvent>(&Hero::onNewLevelEvent, this);
   }
 
   void Hero::update(float dt) {
@@ -168,6 +171,16 @@ namespace huaca {
 
     assert(m_currentAnimation);
     m_currentAnimation->renderAt(window, m_pos, 0.0f, static_cast<float>(TILE_SIZE) / TEXTURE_SIZE);
+  }
+
+  game::EventStatus Hero::onNewLevelEvent(game::EventType type, game::Event *event) {
+    auto positionEvent = static_cast<NewLevelEvent *>(event);
+
+    std::cout << positionEvent->posHero.x << " x " << positionEvent->posHero.y << std::endl;
+
+    m_pos = positionEvent->posHero;
+
+    return game::EventStatus::KEEP;
   }
 
   sf::FloatRect Hero::hitboxFromPosition(const sf::Vector2f& pos) {

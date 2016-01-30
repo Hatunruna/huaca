@@ -4,6 +4,8 @@
 #include "game/Entity.h"
 #include "game/Animation.h"
 
+#include "Events.h"
+
 namespace huaca {
 
   class Hero : public game::Entity {
@@ -37,6 +39,7 @@ namespace huaca {
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
 
+    game::EventStatus onNewLevelEvent(game::EventType type, game::Event *event);
 
     static sf::FloatRect hitboxFromPosition(const sf::Vector2f& pos);
 

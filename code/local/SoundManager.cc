@@ -1,7 +1,5 @@
 #include "SoundManager.h"
 
-#include <iostream>
-
 #include "Singletons.h"
 
 namespace huaca {
@@ -45,7 +43,6 @@ namespace huaca {
   }
 
   game::EventStatus SoundManager::onNewLevelEvent(game::EventType type, game::Event *event) {
-    std::cout << "La" << std::endl;
 
     m_themeSound.play();
 
