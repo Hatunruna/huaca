@@ -28,57 +28,65 @@ namespace huaca {
   , m_runUp("Run up")
   , m_runDown("Run down")
   , m_currentAnimation(&m_staticRight)
+  , m_stepPlaying(false)
   {
     {
-      auto texture = gResourceManager().getTexture("static_right.png");
+      auto texture = gResourceManager().getTexture("images/static_right.png");
       m_staticRight.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
     }
 
     {
-      auto texture = gResourceManager().getTexture("static_left.png");
+      auto texture = gResourceManager().getTexture("images/static_left.png");
       m_staticLeft.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
     }
 
     {
-      auto texture = gResourceManager().getTexture("static_up.png");
+      auto texture = gResourceManager().getTexture("images/static_up.png");
       m_staticUp.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
     }
 
     {
-      auto texture = gResourceManager().getTexture("static_down.png");
+      auto texture = gResourceManager().getTexture("images/static_down.png");
       m_staticDown.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
     }
 
     {
-      auto texture = gResourceManager().getTexture("run_right.png");
+      auto texture = gResourceManager().getTexture("images/run_right.png");
       for (int i = 0; i < 12; ++i) {
         m_runRight.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
       }
     }
 
     {
-      auto texture = gResourceManager().getTexture("run_left.png");
+      auto texture = gResourceManager().getTexture("images/run_left.png");
       for (int i = 0; i < 12; ++i) {
         m_runLeft.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
       }
     }
 
     {
-      auto texture = gResourceManager().getTexture("run_up.png");
+      auto texture = gResourceManager().getTexture("images/run_up.png");
       for (int i = 0; i < 12; ++i) {
         m_runUp.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
       }
     }
 
     {
-      auto texture = gResourceManager().getTexture("run_down.png");
+      auto texture = gResourceManager().getTexture("images/run_down.png");
       for (int i = 0; i < 12; ++i) {
         m_runDown.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
       }
     }
+
+    {
+      auto buffer = gResourceManager().getSoundBuffer("sounds/step.wav");
+      m_stepSound.setBuffer(*buffer);
+      m_stepSound.setLoop(true);
+    }
   }
 
   void Hero::update(float dt) {
+    // Manage animation
     switch (m_dir) {
       case Direction::RIGHT:
         if (m_isRunning) {
@@ -123,6 +131,18 @@ namespace huaca {
         }
 
         break;
+    }
+
+    // Manage audio
+    if (m_isRunning) {
+      if (!m_stepPlaying) {
+        m_stepPlaying = true;
+        m_stepSound.play();
+      }
+    }
+    else {
+      m_stepPlaying = false;
+      m_stepSound.stop();
     }
 
     m_currentAnimation->update(dt);
