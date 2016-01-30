@@ -80,15 +80,24 @@ namespace huaca {
   }
 
   void Hero::render(sf::RenderWindow& window) {
-    assert(m_currentAnimation);
-    m_currentAnimation->renderAt(window, m_pos, 0.0f, 64.0f / TEXTURE_SIZE);
+    auto rect = hitboxFromPosition(m_pos);
 
-    sf::RectangleShape hitbox;
-    hitbox.setPosition(m_pos.x - TILE_SIZE / 4.0f, m_pos.y);
-    hitbox.setSize({TILE_SIZE / 2.0f, TILE_SIZE / 2.0f});
-    hitbox.setFillColor(sf::Color::White);
-
+    sf::RectangleShape hitbox({ rect.width, rect.height });
+    hitbox.setPosition(rect.left, rect.top);
+    hitbox.setFillColor(sf::Color::Red);
     window.draw(hitbox);
+
+    assert(m_currentAnimation);
+    m_currentAnimation->renderAt(window, m_pos, 0.0f, static_cast<float>(TILE_SIZE) / TEXTURE_SIZE);
+  }
+
+  sf::FloatRect Hero::hitboxFromPosition(const sf::Vector2f& pos) {
+    sf::FloatRect rect;
+    rect.left = pos.x - TILE_SIZE / 4;
+    rect.top = pos.y;
+    rect.width = TILE_SIZE / 2;
+    rect.height = TILE_SIZE / 2;
+    return rect;
   }
 
 }

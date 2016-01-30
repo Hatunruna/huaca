@@ -5,15 +5,19 @@
 namespace huaca {
 
   void LevelGenerator::generateFirst() {
+    static constexpr int MIN = SIZE / 3;
+    static constexpr int MAX = 2 * SIZE / 3;
+
     for (unsigned int i = 0; i < SIZE; ++i) {
       for (unsigned int j = 0; j < SIZE; ++j) {
         Cell cell;
-        if (j % 2 == 0) {
+
+        if (i < MIN || i > MAX || j < MIN || j > MAX) {
           cell.type = CellType::WALL;
-        }
-        else {
+        } else {
           cell.type = CellType::GROUND;
         }
+
         cell.tile = 0;
         m_ground[i][j] = cell;
       }
