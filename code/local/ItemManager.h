@@ -28,6 +28,10 @@ namespace huaca {
     virtual void render(sf::RenderWindow& window) override;
 
   private:
+    std::vector<Key*> m_keys;
+    std::vector<Rune*> m_runes;
+    std::vector<Door*> m_doors;
+    std::vector<Portal*> m_portals;
 
   };
 
