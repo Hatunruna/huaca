@@ -61,17 +61,6 @@ namespace huaca {
       }
     }
 
-    //Couloir 2
-    for (unsigned int i = 7 + SHIFT; i < 10 + SHIFT; ++i) {
-      for (unsigned int j = 0 + SHIFT; j < 1 + SHIFT; ++j) {
-        Cell cell;
-
-        cell.type = CellType::GROUND;
-        cell.tile = 1;
-        m_ground[i][j] = cell;
-      }
-    }
-
     //Salle 3
     for (unsigned int i = 20 + SHIFT; i < 27 + SHIFT; ++i) {
       for (unsigned int j = 8 + SHIFT; j < 13 + SHIFT; ++j) {
@@ -93,60 +82,46 @@ namespace huaca {
 
     //Couloir 1
     for (unsigned int i = 7 + SHIFT; i < 10 + SHIFT; ++i) {
-      for (unsigned int j = 2 + SHIFT; j < 3 + SHIFT; ++j) {
-        Cell cell;
+      Cell cell;
 
-        cell.type = CellType::GROUND;
-        cell.tile = 1;
-        m_ground[i][j] = cell;
-      }
+      cell.type = CellType::GROUND;
+      cell.tile = 1;
+      m_ground[i][2 + SHIFT] = cell;
+
       //Couloir 5
-      for (unsigned int j = 10 + SHIFT; j < 11 + SHIFT; ++j) {
-        Cell cell;
 
-        cell.type = CellType::GROUND;
-        cell.tile = 1;
-        m_ground[i][j] = cell;
-      }
+      cell.type = CellType::GROUND;
+      cell.tile = 1;
+      m_ground[i][10 + SHIFT] = cell;
     }
     //Couloir 2
     for (unsigned int i = 17 + SHIFT; i < 20 + SHIFT; ++i) {
-      for (unsigned int j = 2 + SHIFT; j < 3 + SHIFT; ++j) {
         Cell cell;
 
         cell.type = CellType::GROUND;
         cell.tile = 1;
-        m_ground[i][j] = cell;
-      }
+        m_ground[i][2 + SHIFT] = cell;
+
       //Couloir 6
-      for (unsigned int j = 10 + SHIFT; j < 11 + SHIFT; ++j) {
-        Cell cell;
 
         cell.type = CellType::GROUND;
         cell.tile = 1;
-        m_ground[i][j] = cell;
-      }
+        m_ground[i][10 + SHIFT] = cell;
     }
 
     //Couloir 3
-    for (unsigned int i = 3 + SHIFT; i < 4 + SHIFT; ++i) {
-      for (unsigned int j = 5 + SHIFT; j < 8 + SHIFT; ++j) {
-        Cell cell;
+    for (unsigned int j = 5 + SHIFT; j < 8 + SHIFT; ++j) {
+      Cell cell;
 
-        cell.type = CellType::GROUND;
-        cell.tile = 1;
-        m_ground[i][j] = cell;
-      }
-    }
-    //Couloir 4
-    for (unsigned int i = 23 + SHIFT; i < 24 + SHIFT; ++i) {
-      for (unsigned int j = 5 + SHIFT; j < 8 + SHIFT; ++j) {
-        Cell cell;
+      cell.type = CellType::GROUND;
+      cell.tile = 1;
+      m_ground[3 + SHIFT][j] = cell;
 
-        cell.type = CellType::GROUND;
-        cell.tile = 1;
-        m_ground[i][j] = cell;
-      }
+      //Couloir 4
+
+      cell.type = CellType::GROUND;
+      cell.tile = 1;
+      m_ground[23 + SHIFT][j] = cell;
     }
   }
 
