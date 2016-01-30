@@ -118,17 +118,17 @@ int main(int argc, char *argv[]) {
   portalAction.addKeyControl(sf::Keyboard::Space); // AZERTY and QWERTY
   actions.addAction(portalAction);
 
-  // Generate first level
+  huaca::SoundManager soundManager;
   game::Random random;
 
+  // Generate first level
   huaca::LevelGenerator levelGenerator;
-//   levelGenerator.generateFirst();
-  levelGenerator.generateNew(random);
+  levelGenerator.generateFirst();
+  //levelGenerator.generateNew(random);
 
   // Generate the managers
   huaca::GroundManager groundManager = levelGenerator.getGroundManager();
   huaca::WallManager wallManager = levelGenerator.getWallManager();
-  huaca::SoundManager soundManager;
 
   // add entities
 

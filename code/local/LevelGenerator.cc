@@ -1,14 +1,12 @@
 #include "LevelGenerator.h"
 
-#include <cassert>
 #include <iostream>
+
+#include "Singletons.h"
 
 namespace huaca {
 
   void LevelGenerator::generateFirst() {
-    static constexpr int MIN = SIZE / 3;
-    static constexpr int MAX = 2 * SIZE / 3;
-
     // Fill with a wall
     for (unsigned int i = 0; i < SIZE; ++i) {
       for (unsigned int j = 0; j < SIZE; ++j) {
@@ -125,14 +123,13 @@ namespace huaca {
       m_ground[23 + SHIFT][j] = cell;
     }
 
-    /*{
-      HeroPositionEvent event;
-      event.pos = m_pos;
+    {
+      std::cout << "ici" << std::endl;
+      NewLevelEvent event;
+      event.posHero = {0.0f, 0.0f};
 
       gEventManager().triggerEvent(&event);
-
-      m_pos = event.pos;
-    }*/
+    }
   }
 
   void LevelGenerator::generateNew(game::Random& random) {

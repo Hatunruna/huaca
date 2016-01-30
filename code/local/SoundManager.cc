@@ -1,5 +1,7 @@
 #include "SoundManager.h"
 
+#include <iostream>
+
 #include "Singletons.h"
 
 namespace huaca {
@@ -11,6 +13,7 @@ namespace huaca {
       auto buffer = gResourceManager().getSoundBuffer("sounds/step.wav");
       m_stepSound.setBuffer(*buffer);
       m_stepSound.setLoop(true);
+      m_stepSound.setVolume(75.0f);
     }
 
     {
@@ -42,9 +45,9 @@ namespace huaca {
   }
 
   game::EventStatus SoundManager::onNewLevelEvent(game::EventType type, game::Event *event) {
-    auto positionEvent = static_cast<NewLevelEvent *>(event);
+    std::cout << "La" << std::endl;
 
-    m_stepSound.play();
+    m_themeSound.play();
 
     return game::EventStatus::KEEP;
   }
