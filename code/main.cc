@@ -43,7 +43,6 @@
 #include "config.h"
 
 static constexpr float AREA_WIDTH = 640.0f;
-static constexpr float AREA_HEIGHT = 640.0f;
 
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
@@ -70,7 +69,7 @@ int main(int argc, char *argv[]) {
   // add cameras
   game::CameraManager cameras;
 
-  game::FixedRatioCamera mainCamera(window, AREA_WIDTH, AREA_HEIGHT);
+  game::FlexibleCamera mainCamera(window, AREA_WIDTH);
   cameras.addCamera(mainCamera);
 
   game::HeadsUpCamera hudCamera(window);
@@ -91,22 +90,26 @@ int main(int argc, char *argv[]) {
   game::Action leftAction("Go left");
   leftAction.addKeyControl(sf::Keyboard::Q); // AZERTY
   leftAction.addKeyControl(sf::Keyboard::A); // QWERTY
+  leftAction.addKeyControl(sf::Keyboard::Left);
   leftAction.setContinuous();
   actions.addAction(leftAction);
 
   game::Action rightAction("Go right");
   rightAction.addKeyControl(sf::Keyboard::D); // AZERTY and QWERTY
+  rightAction.addKeyControl(sf::Keyboard::Right);
   rightAction.setContinuous();
   actions.addAction(rightAction);
 
   game::Action upAction("Go up");
   upAction.addKeyControl(sf::Keyboard::Z); // AZERTY
   upAction.addKeyControl(sf::Keyboard::W); // QWERTY
+  upAction.addKeyControl(sf::Keyboard::Up);
   upAction.setContinuous();
   actions.addAction(upAction);
 
   game::Action downAction("Go down");
   downAction.addKeyControl(sf::Keyboard::S); // AZERTY and QWERTY
+  downAction.addKeyControl(sf::Keyboard::Down);
   downAction.setContinuous();
   actions.addAction(downAction);
 
