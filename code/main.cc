@@ -34,6 +34,7 @@
 #include "local/Events.h"
 #include "local/Hero.h"
 #include "local/Singletons.h"
+#include "local/Timer.h"
 
 #include "config.h"
 
@@ -43,17 +44,17 @@ static constexpr float AREA_HEIGHT = 640.0f;
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
 
-  // set up singletons
-  game::SingletonStorage<game::EventManager> storageForEventManager(huaca::gEventManager);
-  game::SingletonStorage<game::ResourceManager> storageForResourceManager(huaca::gResourceManager);
-
-  // initialize
-
   static constexpr unsigned INITIAL_WIDTH = 1024;
   static constexpr unsigned INITIAL_HEIGHT = 576;
 
+  // set up singletons
+  game::SingletonStorage<game::EventManager> storageForEventManager(huaca::gEventManager);
+  game::SingletonStorage<game::ResourceManager> storageForResourceManager(huaca::gResourceManager);
+  game::SingletonStorage<game::WindowGeometry> storageForWindowGeometry(huaca::gWindowGeometry, INITIAL_WIDTH, INITIAL_HEIGHT);
+
+  // initialize
+
   game::WindowSettings settings(INITIAL_WIDTH, INITIAL_HEIGHT, "Huaca (version " GAME_VERSION ")");
-  game::WindowGeometry geometry(INITIAL_WIDTH, INITIAL_HEIGHT);
 
   sf::RenderWindow window;
   settings.applyTo(window);
@@ -120,6 +121,8 @@ int main(int argc, char *argv[]) {
 
   game::EntityManager hudEntities;
 
+  huaca::Timer timer(80);
+  hudEntities.addEntity(timer);
 
   // initialisation
 
@@ -140,7 +143,7 @@ int main(int argc, char *argv[]) {
     while (window.pollEvent(event)) {
       actions.update(event);
       cameras.update(event);
-      geometry.update(event);
+      huaca::gWindowGeometry().update(event);
     }
 
     if (closeWindowAction.isActive()) {
@@ -158,7 +161,7 @@ int main(int argc, char *argv[]) {
       event.size.width = sz.x;
       event.size.height = sz.y;
       cameras.update(event);
-      geometry.update(event);
+      huaca::gWindowGeometry().update(event);
     }
 
     if (rightAction.isActive()) {

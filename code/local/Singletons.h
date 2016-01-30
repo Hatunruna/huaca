@@ -4,11 +4,13 @@
 #include "game/Singleton.h"
 #include "game/EventManager.h"
 #include "game/ResourceManager.h"
+#include "game/WindowGeometry.h"
 
 namespace huaca {
 
   extern game::Singleton<game::EventManager> gEventManager;
   extern game::Singleton<game::ResourceManager> gResourceManager;
+  extern game::Singleton<game::WindowGeometry> gWindowGeometry;
 
 }
 
