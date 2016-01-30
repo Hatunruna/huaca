@@ -11,7 +11,7 @@ namespace huaca {
 
   static constexpr int TEXTURE_SIZE = 256;
 
-  static constexpr float SPEED = 100.0f;
+  static constexpr float SPEED = 180.0f;
   static constexpr float FRAME_TIME = 0.05f;
 
   Hero::Hero(const sf::Vector2f& initialPos)
@@ -31,26 +31,32 @@ namespace huaca {
   {
     {
       auto texture = gResourceManager().getTexture("static_right.png");
+      texture->setSmooth(true);
       m_staticRight.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
     }
 
     {
       auto texture = gResourceManager().getTexture("static_left.png");
+      texture->setSmooth(true);
       m_staticLeft.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
     }
 
     {
       auto texture = gResourceManager().getTexture("static_up.png");
+      texture->setSmooth(true);
       m_staticUp.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
     }
 
     {
       auto texture = gResourceManager().getTexture("static_down.png");
+      texture->setSmooth(true);
       m_staticDown.addFrame(texture, { 0, 0, TEXTURE_SIZE, TEXTURE_SIZE }, 1.0f);
     }
 
     {
       auto texture = gResourceManager().getTexture("run_right.png");
+      texture->setSmooth(true);
+
       for (int i = 0; i < 12; ++i) {
         m_runRight.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
       }
@@ -58,6 +64,8 @@ namespace huaca {
 
     {
       auto texture = gResourceManager().getTexture("run_left.png");
+      texture->setSmooth(true);
+
       for (int i = 0; i < 12; ++i) {
         m_runLeft.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
       }
@@ -65,6 +73,8 @@ namespace huaca {
 
     {
       auto texture = gResourceManager().getTexture("run_up.png");
+      texture->setSmooth(true);
+
       for (int i = 0; i < 12; ++i) {
         m_runUp.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
       }
@@ -72,6 +82,8 @@ namespace huaca {
 
     {
       auto texture = gResourceManager().getTexture("run_down.png");
+      texture->setSmooth(true);
+
       for (int i = 0; i < 12; ++i) {
         m_runDown.addFrame(texture, { (i % 4) * TEXTURE_SIZE, (i / 4) * TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE }, FRAME_TIME);
       }
@@ -149,9 +161,9 @@ namespace huaca {
 
   sf::FloatRect Hero::hitboxFromPosition(const sf::Vector2f& pos) {
     sf::FloatRect rect;
-    rect.left = pos.x - TILE_SIZE / 6;
+    rect.left = pos.x - TILE_SIZE / 4 - 2;
     rect.top = pos.y + TILE_SIZE / 12;
-    rect.width = TILE_SIZE / 3;
+    rect.width = TILE_SIZE / 2;
     rect.height = TILE_SIZE / 2;
     return rect;
   }
