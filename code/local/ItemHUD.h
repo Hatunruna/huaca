@@ -16,10 +16,20 @@ namespace huaca {
     bool m_portal0;
     bool m_portal1;
 
+    sf::Texture *m_key0Texture;
+    sf::Texture *m_key1Texture;
+    sf::Texture *m_key2Texture;
+    sf::Texture *m_key3Texture;
+
     bool m_key0;
     bool m_key1;
     bool m_key2;
     bool m_key3;
+
+    sf::Texture *m_rune0Texture;
+    sf::Texture *m_rune1Texture;
+    sf::Texture *m_rune2Texture;
+    sf::Texture *m_rune3Texture;
 
     bool m_rune0;
     bool m_rune1;
