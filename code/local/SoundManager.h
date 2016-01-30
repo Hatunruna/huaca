@@ -12,10 +12,13 @@ namespace huaca {
     SoundManager();
 
     game::EventStatus onHeroRunningEvent(game::EventType type, game::Event *event);
+    game::EventStatus onNewLevelEvent(game::EventType type, game::Event *event);
 
   private: 
     sf::Sound m_stepSound;
     bool m_stepPlaying;
+
+    sf::Sound m_themeSound;
     
   };
 

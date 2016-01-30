@@ -17,6 +17,12 @@ namespace huaca {
     bool isRunning;
   };
 
+  struct NewLevelEvent : public game::Event {
+    static constexpr game::EventType type = "NewLevelEvent"_type;
+
+    sf::Vector2f posHero;
+  };
+
 }
 
 

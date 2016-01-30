@@ -13,8 +13,15 @@ namespace huaca {
       m_stepSound.setLoop(true);
     }
 
+    {
+      auto buffer = gResourceManager().getSoundBuffer("sounds/theme1.wav");
+      m_themeSound.setBuffer(*buffer);
+      m_themeSound.setLoop(true);
+    }
+
     // Register event 
     gEventManager().registerHandler<HeroRunningEvent>(&SoundManager::onHeroRunningEvent, this);
+    gEventManager().registerHandler<NewLevelEvent>(&SoundManager::onNewLevelEvent, this);
   }
 
   game::EventStatus SoundManager::onHeroRunningEvent(game::EventType type, game::Event *event) {
@@ -30,6 +37,14 @@ namespace huaca {
       m_stepPlaying = false;
       m_stepSound.stop();
     }
+
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus SoundManager::onNewLevelEvent(game::EventType type, game::Event *event) {
+    auto positionEvent = static_cast<NewLevelEvent *>(event);
+
+    m_stepSound.play();
 
     return game::EventStatus::KEEP;
   }

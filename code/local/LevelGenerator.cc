@@ -123,6 +123,15 @@ namespace huaca {
       cell.tile = 1;
       m_ground[23 + SHIFT][j] = cell;
     }
+
+    /*{
+      HeroPositionEvent event;
+      event.pos = m_pos;
+
+      gEventManager().triggerEvent(&event);
+
+      m_pos = event.pos;
+    }*/
   }
 
   void LevelGenerator::generateNew(game::Random& random) {
