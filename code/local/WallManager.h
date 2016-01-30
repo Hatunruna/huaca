@@ -7,6 +7,8 @@ namespace huaca {
 
   class WallManager : public game::Entity {
   public:
+    WallManager();
+
     void addWall(sf::Vector2f coordTile, std::size_t tile);
 
     virtual void update(float dt) override;
