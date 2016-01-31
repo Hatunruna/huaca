@@ -12,6 +12,7 @@ namespace huaca {
     ItemHUD();
 
     game::EventStatus onKeyLootEvent(game::EventType type, game::Event *event);
+    game::EventStatus onResetLevelEvent(game::EventType type, game::Event *event);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;

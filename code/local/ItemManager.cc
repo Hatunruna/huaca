@@ -8,7 +8,7 @@
 #include "Singletons.h"
 
 namespace huaca {
-  static constexpr float KEY_SIZE = 30.0f;
+  static constexpr float KEY_SIZE = 15.0f;
   static constexpr float KEY_TEXTURE_SIZE = 64.0f;
 
   static constexpr float DOOR_VERTICAL_SIZE_X = 6.0f;
@@ -129,6 +129,7 @@ namespace huaca {
     // Register event 
     gEventManager().registerHandler<HeroPositionEvent>(&ItemManager::onHeroPositionEvent, this);
     gEventManager().registerHandler<KeyLootEvent>(&ItemManager::onKeyLootEvent, this);
+    gEventManager().registerHandler<ResetLevelEvent>(&ItemManager::onResetLevelEvent, this);
   }
 
   void ItemManager::addKey(sf::Vector2i pos) {
@@ -155,8 +156,11 @@ namespace huaca {
       assert(false);
     }
 
-    key.pos = sf::Vector2f(pos.x * TILE_SIZE, pos.y * TILE_SIZE);
-    key.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, KEY_SIZE, KEY_SIZE);
+    key.pos = sf::Vector2f(pos.x * TILE_SIZE + TILE_SIZE / 2, pos.y * TILE_SIZE + TILE_SIZE / 2);
+    key.hitbox = sf::FloatRect(
+      pos.x * TILE_SIZE + TILE_SIZE / 2 - KEY_SIZE / 2,
+      pos.y * TILE_SIZE + TILE_SIZE / 2 - KEY_SIZE / 2,
+      KEY_SIZE, KEY_SIZE);
     key.num = m_currentKey;
     key.isActive = true;
     key.isLooted = false;
@@ -276,7 +280,7 @@ namespace huaca {
     }
 
     // Collisions with doors
-    for (Door door : m_doors) {
+    for (Door& door : m_doors) {
       if (door.isOpen || door.keyFound) {
         continue;
       }
@@ -342,6 +346,20 @@ namespace huaca {
     return game::EventStatus::KEEP;
   }
 
+  game::EventStatus ItemManager::onResetLevelEvent(game::EventType type, game::Event *event) {
+    for (Key& key : m_keys) {
+      key.isActive = true;
+      key.isLooted = false;
+    }
+
+    for (Door& door : m_doors) {
+      door.keyFound = false;
+      door.isOpen = false;
+    }
+
+    return game::EventStatus::KEEP;
+  }
+
   void ItemManager::update(float dt) {
     // Update keys
     for (Key& key : m_keys) {
@@ -366,6 +384,7 @@ namespace huaca {
       }
 
       sf::Sprite sprite;
+      sprite.setOrigin(KEY_TEXTURE_SIZE / 2, KEY_TEXTURE_SIZE / 2);
       sprite.setScale(KEY_SIZE / KEY_TEXTURE_SIZE, KEY_SIZE / KEY_TEXTURE_SIZE);
 
       sprite.setTexture(*key.texture);
