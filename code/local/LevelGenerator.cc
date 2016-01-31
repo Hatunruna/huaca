@@ -95,16 +95,9 @@ namespace huaca {
       cell.tile = 1;
       m_ground[i][10 + SHIFT] = cell;
     }
-    //Couloir 2			// Take of when TP is there
     for (int i = 17 + SHIFT; i < 20 + SHIFT; ++i) {
+        //Couloir 6
         Cell cell;
-
-        cell.type = CellType::GROUND;
-        cell.tile = 1;
-        m_ground[i][2 + SHIFT] = cell;
-
-      //Couloir 6
-
         cell.type = CellType::GROUND;
         cell.tile = 1;
         m_ground[i][10 + SHIFT] = cell;
@@ -153,6 +146,13 @@ namespace huaca {
     m_runeOrder[1] = 1;
     m_runeOrder[2] = 2;
     m_runeOrder[3] = 3;
+
+    //Create Portals
+    sf::Vector2f m_pos;
+    PortalDropEvent event;
+    event.pos = m_pos;
+    event.pos.y += TILE_SIZE / 4 + TILE_SIZE / 12; // HACK
+    gEventManager().triggerEvent(&event);
 
     // Set the hero position
     {
