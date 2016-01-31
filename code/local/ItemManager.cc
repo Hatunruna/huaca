@@ -100,6 +100,7 @@ namespace huaca {
 
     // Register event 
     gEventManager().registerHandler<HeroPositionEvent>(&ItemManager::onHeroPositionEvent, this);
+    gEventManager().registerHandler<KeyLootEvent>(&ItemManager::onKeyLootEvent, this);
   }
 
   void ItemManager::addKey(sf::Vector2i pos) {
@@ -184,7 +185,7 @@ namespace huaca {
       door.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, DOOR_HORIZONTAL_SIZE_X, DOOR_HORIZONTAL_SIZE_Y);
     }
     door.num = m_currentDoor;
-    door.isActive = true;
+    door.keyFound = false;
     door.isOpen = false;
     door.isVertical = isVertical;
 
@@ -214,6 +215,10 @@ namespace huaca {
 
     // Collisions with doors
     for (Door door : m_doors) {
+      if (door.isOpen || door.keyFound) {
+        continue;
+      }
+
       auto hitboxHero = Hero::hitboxFromPosition(positionEvent->pos);
       sf::FloatRect hitboxDoor = door.hitbox;
 
@@ -266,6 +271,15 @@ namespace huaca {
     return game::EventStatus::KEEP;
   }
 
+  game::EventStatus ItemManager::onKeyLootEvent(game::EventType type, game::Event *event) {
+    auto positionEvent = static_cast<KeyLootEvent *>(event);
+
+    Door &door = m_doors[positionEvent->keyNum];
+    door.keyFound = true;
+
+    return game::EventStatus::KEEP;
+  }
+
   void ItemManager::update(float dt) {
     // Update keys
     for (Key& key : m_keys) {
@@ -300,7 +314,7 @@ namespace huaca {
 
     // Render the doors
     for (Door& door : m_doors) {
-      if (!door.isActive) {
+      if (door.isOpen) {
         continue;
       }
 

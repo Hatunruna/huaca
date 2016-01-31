@@ -25,7 +25,7 @@ namespace huaca {
     sf::Vector2f pos;
     sf::FloatRect hitbox;
     unsigned int num;
-    bool isActive;
+    bool keyFound;
     bool isOpen;
     bool isVertical;
   };
@@ -42,6 +42,7 @@ namespace huaca {
     void addDoor(sf::Vector2i pos, bool isVertical);
 
     game::EventStatus onHeroPositionEvent(game::EventType type, game::Event *event);
+    game::EventStatus onKeyLootEvent(game::EventType type, game::Event *event);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
