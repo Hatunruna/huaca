@@ -11,6 +11,12 @@ namespace huaca {
   public:
     WallManager();
 
+    WallManager(const WallManager&) = delete;
+    WallManager& operator=(const WallManager&) = delete;
+
+    WallManager(WallManager&& other) = default;
+    WallManager& operator=(WallManager&& other) = default;
+
     void addWall(sf::Vector2f coordTile, std::size_t tile);
 
     game::EventStatus onHeroPositionEvent(game::EventType type, game::Event *event);

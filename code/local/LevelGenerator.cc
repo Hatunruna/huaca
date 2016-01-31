@@ -223,6 +223,15 @@ namespace huaca {
       std::cout << '\n';
     }
 
+    // Set the hero position
+    {
+      NewLevelEvent event;
+
+      sf::Vector2f spriteCenter((m_heroPos.x + 0.5) * TILE_SIZE, (m_heroPos.y + 0.5) * TILE_SIZE);
+      event.posHero = spriteCenter;
+
+      gEventManager().triggerEvent(&event);
+    }
   }
 
   static constexpr int SIZE_MIN = 12;

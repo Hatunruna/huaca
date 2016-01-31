@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
 
   game::EntityManager hudEntities;
 
-  huaca::Timer timer(30);
+  huaca::Timer timer(80);
   hudEntities.addEntity(timer);
 
   huaca::ItemHUD itemHud;
@@ -164,6 +164,14 @@ int main(int argc, char *argv[]) {
   game::Clock clock;
 
   while (window.isOpen()) {
+    // special
+    if (itemManager.isLevelFinished()) {
+      levelGenerator.generateNew(random);
+      groundManager = levelGenerator.getGroundManager();
+      itemManager = levelGenerator.getItemManager();
+      wallManager = levelGenerator.getWallManager();
+    }
+
     // input
     sf::Event event;
 
