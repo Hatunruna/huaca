@@ -90,6 +90,7 @@ namespace huaca {
 
     // Register events
     gEventManager().registerHandler<NewLevelEvent>(&Hero::onNewLevelEvent, this);
+    gEventManager().registerHandler<ResetLevelEvent>(&Hero::onResetLevelEvent, this);
   }
 
   void Hero::update(float dt) {
@@ -175,7 +176,13 @@ namespace huaca {
   game::EventStatus Hero::onNewLevelEvent(game::EventType type, game::Event *event) {
     auto positionEvent = static_cast<NewLevelEvent *>(event);
 
-    m_pos = positionEvent->posHero;
+    m_initialPos = m_pos = positionEvent->posHero;
+
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus Hero::onResetLevelEvent(game::EventType type, game::Event *event) {
+    m_pos = m_initialPos;
 
     return game::EventStatus::KEEP;
   }

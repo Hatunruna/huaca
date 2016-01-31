@@ -29,6 +29,10 @@ namespace huaca {
     unsigned int keyNum;
   };
 
+  struct ResetLevelEvent : public game::Event {
+    static constexpr game::EventType type = "ResetLevelEvent"_type;
+  };
+
 }
 
 

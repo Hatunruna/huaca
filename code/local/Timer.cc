@@ -1,5 +1,6 @@
 #include "Timer.h"
 
+#include "Events.h"
 #include "Singletons.h"
 
 namespace huaca {
@@ -16,7 +17,8 @@ namespace huaca {
     m_remainingTime -= dt;
 
     if (m_remainingTime < 0) {
-      // TODO: send an event
+      ResetLevelEvent event;
+      gEventManager().triggerEvent(&event);
 
       m_remainingTime = m_totalTime;
     }

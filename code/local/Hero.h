@@ -40,10 +40,12 @@ namespace huaca {
     virtual void render(sf::RenderWindow& window) override;
 
     game::EventStatus onNewLevelEvent(game::EventType type, game::Event *event);
+    game::EventStatus onResetLevelEvent(game::EventType type, game::Event *event);
 
     static sf::FloatRect hitboxFromPosition(const sf::Vector2f& pos);
 
   private:
+    sf::Vector2f m_initialPos;
     sf::Vector2f m_pos;
 
     enum class Direction {
