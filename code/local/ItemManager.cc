@@ -481,7 +481,6 @@ namespace huaca {
       if (rune.isPressed) {
         rune.isPressed = false;
 
-        std::cout << m_runeOrder[m_currentOrder] << " == " << static_cast<int>(rune.num) << std::endl;
         if (m_runeOrder[m_currentOrder] == static_cast<int>(rune.num)) {
           rune.isActive = true;
           RunePressedEvent event;
