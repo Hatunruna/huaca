@@ -16,6 +16,11 @@ namespace huaca {
   static constexpr float DOOR_VERTICAL_TEXTURE_SIZE_X = 35.0f;
   static constexpr float DOOR_VERTICAL_TEXTURE_SIZE_Y = 256.0f;
 
+  static constexpr float DOOR_HORIZONTAL_SIZE_X = 64.0f;
+  static constexpr float DOOR_HORIZONTAL_SIZE_Y = 32.0f;
+  static constexpr float DOOR_HORIZONTAL_TEXTURE_SIZE_X = 256.0f;
+  static constexpr float DOOR_HORIZONTAL_TEXTURE_SIZE_Y = 128.0f;
+
   ItemManager::ItemManager()
   : game::Entity(2)
   , m_currentKey(0)
@@ -140,7 +145,7 @@ namespace huaca {
       if (isVertical) {
         door.texture = m_ironDoorVerticalTexture;
       } else { // To @jube
-        door.texture = m_silverDoorHorizontalTexture;
+        door.texture = m_ironDoorHorizontalTexture;
       }
       break;
 
@@ -148,7 +153,7 @@ namespace huaca {
       if (isVertical) {
         door.texture = m_bronzeDoorVerticalTexture;
       } else { // To @jube
-        door.texture = m_silverDoorHorizontalTexture;
+        door.texture = m_bronzeDoorHorizontalTexture;
       }
       break;
 
@@ -164,7 +169,7 @@ namespace huaca {
       if (isVertical) {
         door.texture = m_goldDoorVerticalTexture;
       } else { // To @jube
-        door.texture = m_silverDoorHorizontalTexture;
+        door.texture = m_goldDoorHorizontalTexture;
       }
       break;
 
@@ -242,7 +247,7 @@ namespace huaca {
       if (door.isVertical) {
         sprite.setScale(DOOR_VERTICAL_SIZE_X / DOOR_VERTICAL_TEXTURE_SIZE_X, DOOR_VERTICAL_SIZE_Y / DOOR_VERTICAL_TEXTURE_SIZE_Y);
       } else { // To @jube
-        sprite.setScale(KEY_SIZE / KEY_TEXTURE_SIZE, KEY_SIZE / KEY_TEXTURE_SIZE);
+        sprite.setScale(DOOR_HORIZONTAL_SIZE_X / DOOR_HORIZONTAL_TEXTURE_SIZE_X, DOOR_HORIZONTAL_SIZE_Y / DOOR_HORIZONTAL_TEXTURE_SIZE_Y);
       }
 
       sprite.setTexture(*door.texture);
