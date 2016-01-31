@@ -27,7 +27,7 @@ namespace huaca {
   static constexpr float PORTAL_SIZE = 32.0f;
   static constexpr float PORTAL_TEXTURE_SIZE = 64.0f;
 
-  ItemManager::ItemManager(const int runeOrder[4])
+  ItemManager::ItemManager()
   : game::Entity(2)
   , m_currentKey(0)
   , m_currentDoor(0) 
@@ -144,6 +144,23 @@ namespace huaca {
     gEventManager().registerHandler<ResetLevelEvent>(&ItemManager::onResetLevelEvent, this);
     gEventManager().registerHandler<PortalDropEvent>(&ItemManager::onPortalDropEvent, this);
 
+  }
+
+  void ItemManager::clear() {
+    m_keys.clear();
+    m_runes.clear();
+    m_doors.clear();
+    m_portals.clear();
+
+    m_currentKey = 0;
+    m_currentDoor = 0;
+    m_currentRune = 0;
+    m_currentOrder = 0;
+    m_currentPortal = 0;
+    m_isOnPortal = false;
+  }
+
+  void ItemManager::setRuneOrder(const int runeOrder[4]) {
     // Set the sequence rune
     std::copy(runeOrder, runeOrder + 4, m_runeOrder);
   }

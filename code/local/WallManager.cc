@@ -15,6 +15,11 @@ namespace huaca {
     gEventManager().registerHandler<HeroPositionEvent>(&WallManager::onHeroPositionEvent, this);
   }
 
+  void WallManager::clear() {
+    m_vertices.clear();
+    m_bodies.clear();
+  }
+
   void WallManager::addWall(sf::Vector2f coordTile, std::size_t tile) {
     // Add the bodies
     sf::FloatRect rect(coordTile.x * TILE_SIZE, coordTile.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);

@@ -11,6 +11,8 @@ namespace huaca {
   public:
     ItemHUD();
 
+    void clear();
+
     game::EventStatus onKeyLootEvent(game::EventType type, game::Event *event);
     game::EventStatus onResetLevelEvent(game::EventType type, game::Event *event);
     game::EventStatus onRunePressedEvent(game::EventType type, game::Event *event);

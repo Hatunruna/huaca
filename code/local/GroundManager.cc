@@ -18,6 +18,11 @@ namespace huaca {
     }
   }
 
+  void GroundManager::clear() {
+    m_vertices.clear();
+    m_bodies.clear();
+  }
+
   void GroundManager::addGround(sf::Vector2f coordTile, std::size_t tile) {
     // Add the bodies
     sf::FloatRect rect(coordTile.x * TILE_SIZE, coordTile.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);

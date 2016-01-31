@@ -44,7 +44,10 @@ namespace huaca {
 
   class ItemManager : public game::Entity {
   public:
-    ItemManager(const int runeOrder[4]);
+    ItemManager();
+
+    void clear();
+    void setRuneOrder(const int runeOrder[4]);
 
     ItemManager(const ItemManager&) = delete;
     ItemManager& operator=(const ItemManager&) = delete;

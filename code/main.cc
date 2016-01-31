@@ -129,9 +129,13 @@ int main(int argc, char *argv[]) {
   //levelGenerator.generateNew(random);
 
   // Generate the managers
-  huaca::GroundManager groundManager = levelGenerator.getGroundManager();
-  huaca::ItemManager itemManager = levelGenerator.getItemManager();
-  huaca::WallManager wallManager = levelGenerator.getWallManager();
+  huaca::GroundManager groundManager;
+  huaca::ItemManager itemManager;
+  huaca::WallManager wallManager;
+
+  levelGenerator.createGroundManager(groundManager);
+  levelGenerator.createItemManager(itemManager);
+  levelGenerator.createWallManager(wallManager);
 
   // add entities
 
@@ -167,9 +171,10 @@ int main(int argc, char *argv[]) {
     // special
     if (itemManager.isLevelFinished()) {
       levelGenerator.generateNew(random);
-      groundManager = levelGenerator.getGroundManager();
-      itemManager = levelGenerator.getItemManager();
-      wallManager = levelGenerator.getWallManager();
+      levelGenerator.createGroundManager(groundManager);
+      levelGenerator.createItemManager(itemManager);
+      levelGenerator.createWallManager(wallManager);
+      itemManager.clear();
     }
 
     // input

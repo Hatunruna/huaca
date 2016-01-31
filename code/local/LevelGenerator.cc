@@ -31,7 +31,7 @@ namespace huaca {
 
         cell.type = CellType::GROUND;
         cell.tile = 1;
-        m_ground[i][j] = cell;
+        m_ground[j][i] = cell;
       }
       //Salle 4
       for (int j = 8 + SHIFT; j < 13 + SHIFT; ++j) {
@@ -39,7 +39,7 @@ namespace huaca {
 
         cell.type = CellType::GROUND;
         cell.tile = 1;
-        m_ground[i][j] = cell;
+        m_ground[j][i] = cell;
       }
     }
 
@@ -50,7 +50,7 @@ namespace huaca {
 
         cell.type = CellType::GROUND;
         cell.tile = 1;
-        m_ground[i][j] = cell;
+        m_ground[j][i] = cell;
       }
       //Salle 5
       for (int j = 8 + SHIFT; j < 13 + SHIFT; ++j) {
@@ -58,7 +58,7 @@ namespace huaca {
 
         cell.type = CellType::GROUND;
         cell.tile = 1;
-        m_ground[i][j] = cell;
+        m_ground[j][i] = cell;
       }
     }
 
@@ -69,7 +69,7 @@ namespace huaca {
 
         cell.type = CellType::GROUND;
         cell.tile = 1;
-        m_ground[i][j] = cell;
+        m_ground[j][i] = cell;
       }
       //Salle 6
       for (int j = 0 + SHIFT; j < 5 + SHIFT; ++j) {
@@ -77,7 +77,7 @@ namespace huaca {
 
         cell.type = CellType::GROUND;
         cell.tile = 1;
-        m_ground[i][j] = cell;
+        m_ground[j][i] = cell;
       }
     }
 
@@ -87,13 +87,13 @@ namespace huaca {
 
       cell.type = CellType::GROUND;
       cell.tile = 1;
-      m_ground[i][2 + SHIFT] = cell;
+      m_ground[2 + SHIFT][i] = cell;
 
       //Couloir 5
 
       cell.type = CellType::GROUND;
       cell.tile = 1;
-      m_ground[i][10 + SHIFT] = cell;
+      m_ground[10 + SHIFT][i] = cell;
     }
     //Couloir 2			// Take of when TP is there
     for (int i = 17 + SHIFT; i < 20 + SHIFT; ++i) {
@@ -101,13 +101,13 @@ namespace huaca {
 
         cell.type = CellType::GROUND;
         cell.tile = 1;
-        m_ground[i][2 + SHIFT] = cell;
+        m_ground[2 + SHIFT][i] = cell;
 
       //Couloir 6
 
         cell.type = CellType::GROUND;
         cell.tile = 1;
-        m_ground[i][10 + SHIFT] = cell;
+        m_ground[10 + SHIFT][i] = cell;
     }
 
     //Couloir 3
@@ -116,13 +116,13 @@ namespace huaca {
 
       cell.type = CellType::GROUND;
       cell.tile = 1;
-      m_ground[3 + SHIFT][j] = cell;
+      m_ground[j][3 + SHIFT] = cell;
 
       //Couloir 4
 
       cell.type = CellType::GROUND;
       cell.tile = 1;
-      m_ground[23 + SHIFT][j] = cell;
+      m_ground[j][23 + SHIFT] = cell;
     }
 
     // Set key 
@@ -579,8 +579,8 @@ namespace huaca {
     return n.type == s.type && w.type == e.type && n.type != w.type;
   }
 
-  GroundManager LevelGenerator::getGroundManager() const {
-    GroundManager manager;
+  void LevelGenerator::createGroundManager(GroundManager& manager) const {
+    manager.clear();
 
     for (int i = 0; i < SIZE; ++i) {
       for (int j = 0; j < SIZE; ++j) {
@@ -588,11 +588,11 @@ namespace huaca {
 
         switch (cell.type) {
         case CellType::GROUND:
-          manager.addGround(sf::Vector2f(i, j), cell.tile);
+          manager.addGround(sf::Vector2f(j, i), cell.tile);
           break;
 
         case CellType::WALL:
-          manager.addHalfWall(sf::Vector2f(i, j), cell.tile);
+          manager.addHalfWall(sf::Vector2f(j, i), cell.tile);
           break;
 
         default:
@@ -600,12 +600,10 @@ namespace huaca {
         }
       }
     }
-
-    return manager;
   }
 
-  ItemManager LevelGenerator::getItemManager() const {
-    ItemManager manager(m_runeOrder);
+  void LevelGenerator::createItemManager(ItemManager& manager) const {
+    manager.clear();
 
     // Add the key
     manager.addKey(m_key0Pos);
@@ -625,23 +623,21 @@ namespace huaca {
     manager.addRune(m_rune2Pos);
     manager.addRune(m_rune3Pos);
 
-    return manager;
+    manager.setRuneOrder(m_runeOrder);
   }
 
-  WallManager LevelGenerator::getWallManager() const {
-    WallManager manager;
+  void LevelGenerator::createWallManager(WallManager& manager) const {
+    manager.clear();
 
     for (int i = 0; i < SIZE; ++i) {
       for (int j = 0; j < SIZE; ++j) {
         Cell cell = m_ground[i][j];
 
         if (cell.type == CellType::WALL) {
-          manager.addWall(sf::Vector2f(i, j), cell.tile);
+          manager.addWall(sf::Vector2f(j, i), cell.tile);
         }
       }
     }
-
-    return manager;
   }
 
 

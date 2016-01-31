@@ -30,6 +30,8 @@ namespace huaca {
     GroundManager(GroundManager&& other) = default;
     GroundManager& operator=(GroundManager&& other) = default;
 
+    void clear();
+
     void addGround(sf::Vector2f coordTile, std::size_t tile);
     void addHalfWall(sf::Vector2f coordTile, std::size_t tile);
 
