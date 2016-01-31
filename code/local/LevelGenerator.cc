@@ -143,10 +143,10 @@ namespace huaca {
     m_door3Vertical = false;
 
     // Set runes
-    m_rune0Pos = {SHIFT + 1, SHIFT + 0};
-    m_rune1Pos = {SHIFT + 2, SHIFT + 0};
-    m_rune2Pos = {SHIFT + 3, SHIFT + 6};
-    m_rune3Pos = {SHIFT + 4, SHIFT + 0};
+    m_rune0Pos = {SHIFT + 5, SHIFT + 2};
+    m_rune1Pos = {SHIFT + 25, SHIFT + 10};
+    m_rune2Pos = {SHIFT + 23, SHIFT + 10};
+    m_rune3Pos = {SHIFT + 3, SHIFT + 5};
 
     // Set runes 
     m_runeOrder[0] = 0;
