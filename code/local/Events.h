@@ -33,6 +33,13 @@ namespace huaca {
     static constexpr game::EventType type = "ResetLevelEvent"_type;
   };
 
+  struct PortalDropEvent : public game::Event {
+    static constexpr game::EventType type = "PortalDropEvent"_type;
+
+    sf::Vector2f pos;
+  };
+
+
 }
 
 

@@ -93,6 +93,10 @@ namespace huaca {
     gEventManager().registerHandler<ResetLevelEvent>(&Hero::onResetLevelEvent, this);
   }
 
+  void Hero::dropPortal() {
+    // TODO: HERE
+  }
+
   void Hero::update(float dt) {
     // Manage animation
     switch (m_dir) {
@@ -162,12 +166,12 @@ namespace huaca {
   }
 
   void Hero::render(sf::RenderWindow& window) {
-    auto rect = hitboxFromPosition(m_pos);
-
-    sf::RectangleShape hitbox({ rect.width, rect.height });
-    hitbox.setPosition(rect.left, rect.top);
-    hitbox.setFillColor(sf::Color::Red);
-    window.draw(hitbox);
+//     auto rect = hitboxFromPosition(m_pos);
+//
+//     sf::RectangleShape hitbox({ rect.width, rect.height });
+//     hitbox.setPosition(rect.left, rect.top);
+//     hitbox.setFillColor(sf::Color::Red);
+//     window.draw(hitbox);
 
     assert(m_currentAnimation);
     m_currentAnimation->renderAt(window, m_pos, 0.0f, static_cast<float>(TILE_SIZE) / TEXTURE_SIZE);

@@ -36,6 +36,8 @@ namespace huaca {
       m_isRunning = false;
     }
 
+    void dropPortal();
+
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
 

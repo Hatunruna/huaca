@@ -31,7 +31,10 @@ namespace huaca {
   };
 
   struct Portal {
-
+    sf::Texture *texture;
+    sf::Vector2f pos;
+    sf::FloatRect hitbox;
+    bool isActive;
   };
 
   class ItemManager : public game::Entity {

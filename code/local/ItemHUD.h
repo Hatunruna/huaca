@@ -18,6 +18,8 @@ namespace huaca {
     virtual void render(sf::RenderWindow& window) override;
 
   private:
+    sf::Texture *m_portalTexture;
+
     bool m_portal0;
     bool m_portal1;
 
