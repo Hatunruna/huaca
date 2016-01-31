@@ -354,6 +354,15 @@ namespace huaca {
     std::cout << "Rune 2: " << m_rune2Pos.x << ',' << m_rune2Pos.y << '\n';
     std::cout << "Rune 3: " << m_rune3Pos.x << ',' << m_rune3Pos.y << '\n';
 
+    for (int i = 0; i < 4; ++i) {
+      m_runeOrder[i] = i;
+    }
+
+    for (int k = 0; k < 20; ++k) {
+      int i = random.computeUniformInteger(0, 3);
+      int j = random.computeUniformInteger(0, 3);
+      std::swap(m_runeOrder[i], m_runeOrder[j]);
+    }
 
     // hero
     do {
@@ -425,6 +434,7 @@ namespace huaca {
 
     // door0
     m_door0Pos = getDoor(random, index + 1, path);
+    m_door0Vertical = m_ground[m_door0Pos.y + 1][m_door0Pos.x].type == CellType::WALL;
 
 //     std::cout << "key0: " << m_key0Pos.x << ',' << m_key0Pos.y << ' ' << index << '\n';
 //     std::cout << "key0: " << m_key0Pos.x << ',' << m_key0Pos.y << ' ' << index << '\n';
@@ -438,6 +448,7 @@ namespace huaca {
 
     // door1
     m_door1Pos = getDoor(random, index + 1, path);
+    m_door1Vertical = m_ground[m_door1Pos.y + 1][m_door1Pos.x].type == CellType::WALL;
 
     // key 2
     do {
@@ -448,6 +459,7 @@ namespace huaca {
 
     // door2
     m_door2Pos = getDoor(random, index + 1, path);
+    m_door2Vertical = m_ground[m_door2Pos.y + 1][m_door2Pos.x].type == CellType::WALL;
 
     // key 3
     do {
@@ -458,6 +470,7 @@ namespace huaca {
 
     // door3
     m_door3Pos = getDoor(random, index + 1, path);
+    m_door3Vertical = m_ground[m_door3Pos.y + 1][m_door3Pos.x].type == CellType::WALL;
   }
 
   sf::Vector2i LevelGenerator::getDoor(game::Random& random, int index, const std::vector<sf::Vector2i>& path) {
