@@ -136,6 +136,10 @@ namespace huaca {
     m_door1Pos = {SHIFT + 2, SHIFT + 3};
     m_door2Pos = {SHIFT + 2, SHIFT + 2};
     m_door3Pos = {SHIFT + 1, SHIFT + 2};
+    m_door0Vertical = true;
+    m_door1Vertical = true;
+    m_door2Vertical = true;
+    m_door3Vertical = true;
 
     // Set the hero position
     {
@@ -575,10 +579,10 @@ namespace huaca {
     manager.addKey(m_key3Pos);
 
     // Add doors
-    manager.addDoor(m_door0Pos, false);
-    manager.addDoor(m_door1Pos, false);
-    manager.addDoor(m_door2Pos, false);
-    manager.addDoor(m_door3Pos, false);
+    manager.addDoor(m_door0Pos, m_door0Vertical);
+    manager.addDoor(m_door1Pos, m_door1Vertical);
+    manager.addDoor(m_door2Pos, m_door2Vertical);
+    manager.addDoor(m_door3Pos, m_door3Vertical);
 
     return manager;
   }

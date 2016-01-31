@@ -46,6 +46,11 @@ namespace huaca {
     sf::Vector2i m_door2Pos;
     sf::Vector2i m_door3Pos;
 
+    bool m_door0Vertical;
+    bool m_door1Vertical;
+    bool m_door2Vertical;
+    bool m_door3Vertical;
+
     sf::Vector2i m_rune0Pos;
     sf::Vector2i m_rune1Pos;
     sf::Vector2i m_rune2Pos;
