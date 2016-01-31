@@ -95,16 +95,14 @@ namespace huaca {
       cell.tile = 1;
       m_ground[10 + SHIFT][i] = cell;
     }
-    //Couloir 2			// Take of when TP is there
     for (int i = 17 + SHIFT; i < 20 + SHIFT; ++i) {
         Cell cell;
-
+        //Couloir 3
         cell.type = CellType::GROUND;
         cell.tile = 1;
         m_ground[2 + SHIFT][i] = cell;
 
-      //Couloir 6
-
+        //Couloir 6
         cell.type = CellType::GROUND;
         cell.tile = 1;
         m_ground[10 + SHIFT][i] = cell;
@@ -153,7 +151,7 @@ namespace huaca {
     m_runeOrder[1] = 1;
     m_runeOrder[2] = 2;
     m_runeOrder[3] = 3;
-
+ 
     // Set the hero position
     {
       NewLevelEvent event;

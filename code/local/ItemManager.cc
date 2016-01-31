@@ -3,6 +3,8 @@
 #include <cassert>
 #include <iostream>
 
+#include <SFML/Audio.hpp>
+
 #include "Constants.h"
 #include "Hero.h"
 #include "Singletons.h"
@@ -319,7 +321,7 @@ namespace huaca {
 
     // Collisions with doors
     for (Door& door : m_doors) {
-      if (door.isOpen || door.keyFound) {
+      if (door.isOpen /*|| door.keyFound*/) {
         continue;
       }
 
@@ -349,6 +351,14 @@ namespace huaca {
         if (y_overlap <= 0) {
           continue;
         }
+        
+        if (door.keyFound) {
+          door.isOpen = true;
+          
+          // TODO music
+          DoorOpeningEvent event;
+          gEventManager().triggerEvent(&event);          
+        }         
 
         sf::Vector2f normal;
 
