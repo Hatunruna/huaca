@@ -39,7 +39,7 @@ namespace huaca {
     sf::Texture *texture;
     sf::Vector2f pos;
     sf::FloatRect hitbox;
-    bool isActive;
+    unsigned int num;
   };
 
   class ItemManager : public game::Entity {
@@ -53,6 +53,7 @@ namespace huaca {
     game::EventStatus onHeroPositionEvent(game::EventType type, game::Event *event);
     game::EventStatus onKeyLootEvent(game::EventType type, game::Event *event);
     game::EventStatus onResetLevelEvent(game::EventType type, game::Event *event);
+    game::EventStatus onPortalDropEvent(game::EventType type, game::Event *event);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
@@ -88,6 +89,10 @@ namespace huaca {
 
     int m_runeOrder[4];
     int m_currentOrder;
+
+    unsigned int m_currentPortal;
+    bool m_isOnPortal;
+    sf::Texture *m_portalTexture;
 
   private:
     void clearRunes();

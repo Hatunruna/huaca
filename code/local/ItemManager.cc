@@ -24,12 +24,17 @@ namespace huaca {
   static constexpr float RUNE_SIZE = 32.0f;
   static constexpr float RUNE_TEXTURE_SIZE = 64.0f;
 
+  static constexpr float PORTAL_SIZE = 32.0f;
+  static constexpr float PORTAL_TEXTURE_SIZE = 64.0f;
+
   ItemManager::ItemManager(const int runeOrder[4])
   : game::Entity(2)
   , m_currentKey(0)
   , m_currentDoor(0) 
   , m_currentRune(0)
-  , m_currentOrder(0) {
+  , m_currentOrder(0)
+  , m_currentPortal(0)
+  {
     // Load resources
     {
       auto texture = gResourceManager().getTexture("images/key_iron.png");
@@ -127,10 +132,17 @@ namespace huaca {
       m_rune3Texture = texture;
     }
 
+    {
+      auto texture = gResourceManager().getTexture("images/portal.png");
+      texture->setSmooth(true);
+      m_portalTexture = texture;
+    }
+
     // Register event 
     gEventManager().registerHandler<HeroPositionEvent>(&ItemManager::onHeroPositionEvent, this);
     gEventManager().registerHandler<KeyLootEvent>(&ItemManager::onKeyLootEvent, this);
     gEventManager().registerHandler<ResetLevelEvent>(&ItemManager::onResetLevelEvent, this);
+    gEventManager().registerHandler<PortalDropEvent>(&ItemManager::onPortalDropEvent, this);
 
     // Set the sequence rune
     std::copy(runeOrder, runeOrder + 4, m_runeOrder);
@@ -350,8 +362,32 @@ namespace huaca {
       }
 
       sf::FloatRect hitboxHero = Hero::hitboxFromPosition(positionEvent->pos);
+
       if (hitboxHero.intersects(rune.hitbox)) {
         rune.isPressed = true;
+      }
+    }
+
+    // Collisions with the portals
+    if (m_currentPortal == 2) {
+      int collisions = 0;
+
+      for (Portal& portal : m_portals) {
+        sf::FloatRect hitboxHero = Hero::hitboxFromPosition(positionEvent->pos);
+
+        if (hitboxHero.intersects(portal.hitbox)) {
+          collisions++;
+
+          if (!m_isOnPortal) {
+            positionEvent->pos = m_portals[1 - portal.num].pos;
+            positionEvent->pos.y -= TILE_SIZE / 4 + TILE_SIZE / 12; // HACK
+            m_isOnPortal = true;
+          }
+        }
+      }
+
+      if (collisions == 0) {
+        m_isOnPortal = false;
       }
     }
 
@@ -379,6 +415,34 @@ namespace huaca {
     }
 
     clearRunes();
+
+    m_portals.clear();
+    m_currentPortal = 0;
+
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus ItemManager::onPortalDropEvent(game::EventType type, game::Event *event) {
+    if (m_currentPortal == 2) {
+      return game::EventStatus::KEEP;
+    }
+
+    auto portalDrop = static_cast<PortalDropEvent*>(event);
+
+    Portal portal;
+    portal.texture = m_portalTexture;
+    portal.pos = portalDrop->pos;
+    portal.hitbox = sf::FloatRect(
+      portal.pos.x - PORTAL_SIZE / 2,
+      portal.pos.y - PORTAL_SIZE / 2,
+      PORTAL_SIZE, PORTAL_SIZE
+    );
+    portal.num = m_currentPortal;
+
+    m_portals.push_back(portal);
+
+    m_currentPortal++;
+    m_isOnPortal = true;
 
     return game::EventStatus::KEEP;
   }
@@ -463,6 +527,17 @@ namespace huaca {
       sprite.setScale(RUNE_SIZE / RUNE_TEXTURE_SIZE, RUNE_SIZE / RUNE_TEXTURE_SIZE);
       sprite.setTexture(*rune.texture);
       sprite.setPosition(rune.pos);
+
+      window.draw(sprite);
+    }
+
+    // Render the portals
+    for (Portal& portal : m_portals) {
+      sf::Sprite sprite;
+      sprite.setOrigin(PORTAL_TEXTURE_SIZE / 2, PORTAL_TEXTURE_SIZE / 2);
+      sprite.setScale(PORTAL_SIZE / PORTAL_TEXTURE_SIZE, PORTAL_SIZE / PORTAL_TEXTURE_SIZE);
+      sprite.setTexture(*portal.texture);
+      sprite.setPosition(portal.pos);
 
       window.draw(sprite);
     }

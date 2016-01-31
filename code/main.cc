@@ -203,6 +203,10 @@ int main(int argc, char *argv[]) {
       hero.stop();
     }
 
+    if (portalAction.isActive()) {
+      hero.dropPortal();
+    }
+
     // update
     auto elapsed = clock.restart();
     auto dt = elapsed.asSeconds();

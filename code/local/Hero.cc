@@ -94,7 +94,10 @@ namespace huaca {
   }
 
   void Hero::dropPortal() {
-    // TODO: HERE
+    PortalDropEvent event;
+    event.pos = m_pos;
+    event.pos.y += TILE_SIZE / 4 + TILE_SIZE / 12; // HACK
+    gEventManager().triggerEvent(&event);
   }
 
   void Hero::update(float dt) {
