@@ -14,7 +14,7 @@ namespace huaca {
   }
 
   game::EventStatus Timer::onNewLevelEvent(game::EventType type, game::Event *event) {
-    m_totalTime = m_remainingTime;
+    m_remainingTime = m_totalTime;
     return game::EventStatus::KEEP;
   }
 
