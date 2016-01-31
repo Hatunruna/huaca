@@ -6,7 +6,7 @@
 #include "Events.h"
 
 namespace huaca {
-
+  
   class WallManager : public game::Entity {
   public:
     WallManager();

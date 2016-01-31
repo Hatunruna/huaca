@@ -2,8 +2,23 @@
 #define LOCAL_GROUND_MANAGER_H
 
 #include "game/Entity.h"
+#include "../game/Random.h"
 
 namespace huaca {
+    
+  struct Ground {
+      sf::Texture *texture;
+      unsigned int num;
+      sf::Vector2f coordTile;
+      std::size_t tile;
+  };
+  
+  struct HalfWall {
+      sf::Texture *texture;
+      unsigned int num;
+      sf::Vector2f coordTile;
+      std::size_t tile;
+  };
 
   class GroundManager : public game::Entity {
   public:
@@ -24,6 +39,8 @@ namespace huaca {
   private:
     sf::VertexArray m_vertices;
     std::vector<sf::FloatRect> m_bodies;
+    sf::Texture *m_groundsWallsTexture;
+    game::Random m_random;
   };
 
 }

@@ -13,6 +13,7 @@ namespace huaca {
 
     game::EventStatus onHeroRunningEvent(game::EventType type, game::Event *event);
     game::EventStatus onNewLevelEvent(game::EventType type, game::Event *event);
+    game::EventStatus onFailSequenceEvent(game::EventType type, game::Event *event);
 
   private: 
     sf::Sound m_stepSound;
@@ -20,6 +21,7 @@ namespace huaca {
 
     sf::Sound m_themeSound;
     
+    sf::Sound m_failSound;
   };
 
 }
