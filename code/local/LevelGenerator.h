@@ -14,9 +14,9 @@ namespace huaca {
     void generateFirst();
     void generateNew(game::Random& random);
 
-    GroundManager getGroundManager() const;
-    ItemManager getItemManager() const;
-    WallManager getWallManager() const;
+    void createGroundManager(GroundManager& gm) const;
+    void createItemManager(ItemManager& im) const;
+    void createWallManager(WallManager& wm) const;
 
   private:
     static constexpr int SIZE = 40;

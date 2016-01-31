@@ -32,7 +32,6 @@ namespace huaca {
     sf::Sound m_rune3Sound;
 
     sf::Sound m_foundKeySound;
-    
     sf::Sound m_doorSound;
   };
 

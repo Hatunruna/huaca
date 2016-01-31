@@ -18,6 +18,11 @@ namespace huaca {
     }
   }
 
+  void GroundManager::clear() {
+    m_vertices.clear();
+    m_bodies.clear();
+  }
+
   void GroundManager::addGround(sf::Vector2f coordTile, std::size_t tile) {
     // Add the bodies
     sf::FloatRect rect(coordTile.x * TILE_SIZE, coordTile.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -33,7 +38,10 @@ namespace huaca {
     quad[3].position = sf::Vector2f(coordTile.x * TILE_SIZE, (coordTile.y + 1) * TILE_SIZE);
 
     // Define texture
-    int randNb = m_random.computeUniformInteger(0,6);
+    int randNb = m_random.computeUniformInteger(0,20);
+    if(randNb > 6){
+        randNb = 0;
+    }
     quad[0].texCoords = sf::Vector2f((randNb) * TILEWIDTH, 0);
     quad[1].texCoords = sf::Vector2f((randNb + 1) * TILEWIDTH, 0);
     quad[2].texCoords = sf::Vector2f((randNb + 1) * TILEWIDTH, TILEWIDTH);

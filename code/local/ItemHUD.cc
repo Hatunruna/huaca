@@ -26,6 +26,7 @@ namespace huaca {
     gEventManager().registerHandler<RunePressedEvent>(&ItemHUD::onRunePressedEvent, this);
     gEventManager().registerHandler<FailSequenceEvent>(&ItemHUD::onFailSequenceEvent, this);
     gEventManager().registerHandler<PortalDropEvent>(&ItemHUD::onPortalDropEvent, this);
+    gEventManager().registerHandler<NewLevelEvent>(&ItemHUD::onNewLevelEvent, this);
 
     // Load texture
     m_portalTexture = gResourceManager().getTexture("images/portal.png");
@@ -39,6 +40,12 @@ namespace huaca {
     m_rune1Texture = gResourceManager().getTexture("images/rune1_red.png");
     m_rune2Texture = gResourceManager().getTexture("images/rune2_green.png");
     m_rune3Texture = gResourceManager().getTexture("images/rune3_purple.png");
+  }
+
+  void ItemHUD::clear() {
+    m_portal0 = m_portal1 = true;
+    m_key0 = m_key1 = m_key2 = m_key3 = false;
+    clearRunes();
   }
 
   game::EventStatus ItemHUD::onKeyLootEvent(game::EventType type, game::Event *event) {
@@ -98,7 +105,6 @@ namespace huaca {
   game::EventStatus ItemHUD::onResetLevelEvent(game::EventType type, game::Event *event) {
     m_portal0 = m_portal1 = true;
     m_key0 = m_key1 = m_key2 = m_key3 = false;
-    m_rune0 = m_rune1 = m_rune2 = m_rune3 = false;
     clearRunes();
     return game::EventStatus::KEEP;
   }
@@ -116,6 +122,11 @@ namespace huaca {
       m_portal1 = false;
     }
 
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus ItemHUD::onNewLevelEvent(game::EventType type, game::Event *event) {
+    clear();
     return game::EventStatus::KEEP;
   }
 

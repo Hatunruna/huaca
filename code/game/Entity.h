@@ -55,7 +55,7 @@ namespace game {
     virtual void render(sf::RenderWindow& window);
 
   private:
-    const int m_priority;
+    int m_priority;
     bool m_alive;
   };
 

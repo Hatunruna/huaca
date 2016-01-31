@@ -29,7 +29,7 @@ namespace huaca {
   static constexpr float PORTAL_SIZE = 32.0f;
   static constexpr float PORTAL_TEXTURE_SIZE = 64.0f;
 
-  ItemManager::ItemManager(const int runeOrder[4])
+  ItemManager::ItemManager()
   : game::Entity(2)
   , m_currentKey(0)
   , m_currentDoor(0) 
@@ -146,6 +146,23 @@ namespace huaca {
     gEventManager().registerHandler<ResetLevelEvent>(&ItemManager::onResetLevelEvent, this);
     gEventManager().registerHandler<PortalDropEvent>(&ItemManager::onPortalDropEvent, this);
 
+  }
+
+  void ItemManager::clear() {
+    m_keys.clear();
+    m_runes.clear();
+    m_doors.clear();
+    m_portals.clear();
+
+    m_currentKey = 0;
+    m_currentDoor = 0;
+    m_currentRune = 0;
+    m_currentOrder = 0;
+    m_currentPortal = 0;
+    m_isOnPortal = false;
+  }
+
+  void ItemManager::setRuneOrder(const int runeOrder[4]) {
     // Set the sequence rune
     std::copy(runeOrder, runeOrder + 4, m_runeOrder);
   }
@@ -516,15 +533,18 @@ namespace huaca {
         continue;
       }
 
+      sf::Vector2f shift(0.0f, 0.0f);
+
       sf::Sprite sprite;
       if (door.isVertical) {
         sprite.setScale(DOOR_VERTICAL_SIZE_X / DOOR_VERTICAL_TEXTURE_SIZE_X, DOOR_VERTICAL_SIZE_Y / DOOR_VERTICAL_TEXTURE_SIZE_Y);
+        shift = sf::Vector2f(0.0f, -TILE_SIZE / 2);
       } else { // To @jube
         sprite.setScale(DOOR_HORIZONTAL_SIZE_X / DOOR_HORIZONTAL_TEXTURE_SIZE_X, DOOR_HORIZONTAL_SIZE_Y / DOOR_HORIZONTAL_TEXTURE_SIZE_Y);
       }
 
       sprite.setTexture(*door.texture);
-      sprite.setPosition(door.pos);
+      sprite.setPosition(door.pos + shift);
 
       window.draw(sprite);
     }
@@ -536,6 +556,10 @@ namespace huaca {
       sprite.setScale(RUNE_SIZE / RUNE_TEXTURE_SIZE, RUNE_SIZE / RUNE_TEXTURE_SIZE);
       sprite.setTexture(*rune.texture);
       sprite.setPosition(rune.pos);
+
+      if (rune.isActive) {
+        sprite.setColor(sf::Color(0xFF, 0xFF, 0xFF, 0x80));
+      }
 
       window.draw(sprite);
     }

@@ -44,7 +44,16 @@ namespace huaca {
 
   class ItemManager : public game::Entity {
   public:
-    ItemManager(const int runeOrder[4]);
+    ItemManager();
+
+    void clear();
+    void setRuneOrder(const int runeOrder[4]);
+
+    ItemManager(const ItemManager&) = delete;
+    ItemManager& operator=(const ItemManager&) = delete;
+
+    ItemManager(ItemManager&& other) = default;
+    ItemManager& operator=(ItemManager&& other) = default;
 
     void addKey(sf::Vector2i pos);
     void addDoor(sf::Vector2i pos, bool isVertical);
@@ -57,6 +66,10 @@ namespace huaca {
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
+
+    bool isLevelFinished() const {
+      return m_currentOrder == 4;
+    }
 
   private:
     std::vector<Key> m_keys;

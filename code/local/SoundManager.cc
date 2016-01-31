@@ -60,6 +60,13 @@ namespace huaca {
       m_doorSound.setLoop(false);
       m_doorSound.setVolume(100.0f);
     }
+    
+    {
+      sf::SoundBuffer* buffer = gResourceManager().getSoundBuffer("sounds/door_open.wav");
+      m_doorSound.setBuffer(*buffer);
+      m_doorSound.setLoop(false);
+      m_doorSound.setVolume(100.0f);
+    }
 
     // Register event 
     gEventManager().registerHandler<HeroRunningEvent>(&SoundManager::onHeroRunningEvent, this);
