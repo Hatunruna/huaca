@@ -23,6 +23,12 @@ namespace huaca {
     sf::Vector2f posHero;
   };
 
+  struct KeyLootEvent : public game::Event {
+    static constexpr game::EventType type = "KeyLootEvent"_type;
+
+    unsigned int keyNum;
+  };
+
 }
 
 

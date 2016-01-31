@@ -10,7 +10,10 @@ namespace huaca {
   struct Key {
     sf::Texture *texture;
     sf::Vector2f pos;
+    sf::FloatRect hitbox;
+    unsigned int num;
     bool isActive;
+    bool isLooted;
   };
 
   struct Rune {
@@ -30,6 +33,8 @@ namespace huaca {
     ItemManager();
 
     void addKey(sf::Vector2i pos);
+
+    game::EventStatus onHeroPositionEvent(game::EventType type, game::Event *event);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;

@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Constants.h"
+#include "Hero.h"
 #include "Singletons.h"
 
 namespace huaca {
@@ -37,6 +38,9 @@ namespace huaca {
       texture->setSmooth(true);
       m_goldKeyTexture = texture;
     }
+
+    // Register event 
+    gEventManager().registerHandler<HeroPositionEvent>(&ItemManager::onHeroPositionEvent, this);
   }
 
   void ItemManager::addKey(sf::Vector2i pos) {
@@ -64,20 +68,50 @@ namespace huaca {
     }
 
     key.pos = sf::Vector2f(pos.x * TILE_SIZE, pos.y * TILE_SIZE);
+    key.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, KEY_SIZE, KEY_SIZE);
+    key.num = m_currentKey;
     key.isActive = true;
+    key.isLooted = false;
 
     m_keys.push_back(key);
 
     ++m_currentKey;
   }
 
-  void ItemManager::update(float dt) {
+  game::EventStatus ItemManager::onHeroPositionEvent(game::EventType type, game::Event *event) {
+    auto positionEvent = static_cast<HeroPositionEvent *>(event);
+    for (Key& key : m_keys) {
+      if (!key.isActive) {
+        continue;
+      }
 
+      sf::FloatRect hitboxHero = Hero::hitboxFromPosition(positionEvent->pos);
+      if (hitboxHero.intersects(key.hitbox)) {
+        key.isLooted = true;
+      }
+    }
+
+    return game::EventStatus::KEEP;
+  }
+
+  void ItemManager::update(float dt) {
+    for (Key& key : m_keys) {
+      if (key.isLooted && key.isActive) {
+        key.isActive = false;
+
+        {
+          KeyLootEvent event;
+          event.keyNum = key.num;
+
+          gEventManager().triggerEvent(&event);
+        }
+      }
+    }
   }
 
   void ItemManager::render(sf::RenderWindow& window) {
     // Render the keys
-    for (Key key : m_keys) {
+    for (Key& key : m_keys) {
       if (!key.isActive) {
         continue;
       }

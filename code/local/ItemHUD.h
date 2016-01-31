@@ -3,11 +3,15 @@
 
 #include "game/Entity.h"
 
+#include "Events.h"
+
 namespace huaca {
 
   class ItemHUD : public game::Entity {
   public:
     ItemHUD();
+
+    game::EventStatus onKeyLootEvent(game::EventType type, game::Event *event);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;

@@ -1,5 +1,7 @@
 #include "ItemHUD.h"
 
+#include <cassert>
+
 #include "Singletons.h"
 
 namespace huaca {
@@ -8,15 +10,19 @@ namespace huaca {
   : game::Entity(10)
   , m_portal0(false)
   , m_portal1(true)
-  , m_key0(true)
-  , m_key1(true)
+  , m_key0(false)
+  , m_key1(false)
   , m_key2(false)
-  , m_key3(true)
+  , m_key3(false)
   , m_rune0(true)
   , m_rune1(true)
   , m_rune2(false)
   , m_rune3(true)
   {
+    // Register event 
+    gEventManager().registerHandler<KeyLootEvent>(&ItemHUD::onKeyLootEvent, this);
+
+    // Load texture
     m_key0Texture = gResourceManager().getTexture("images/key_iron.png");
     m_key1Texture = gResourceManager().getTexture("images/key_bronze.png");
     m_key2Texture = gResourceManager().getTexture("images/key_silver.png");
@@ -26,6 +32,33 @@ namespace huaca {
     m_rune1Texture = gResourceManager().getTexture("images/rune1_red.png");
     m_rune2Texture = gResourceManager().getTexture("images/rune2_green.png");
     m_rune3Texture = gResourceManager().getTexture("images/rune3_purple.png");
+  }
+
+  game::EventStatus ItemHUD::onKeyLootEvent(game::EventType type, game::Event *event) {
+    auto positionEvent = static_cast<KeyLootEvent *>(event);
+
+    switch (positionEvent->keyNum) {
+    case 0:
+      m_key0 = true;
+      break;
+
+    case 1:
+      m_key1 = true;
+      break;
+
+    case 2:
+      m_key2 = true;
+      break;
+
+    case 3:
+      m_key3 = true;
+      break;
+
+    default:
+      assert(false);
+    }
+
+    return game::EventStatus::KEEP;
   }
 
   void ItemHUD::update(float dt) {
