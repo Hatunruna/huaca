@@ -533,15 +533,18 @@ namespace huaca {
         continue;
       }
 
+      sf::Vector2f shift(0.0f, 0.0f);
+
       sf::Sprite sprite;
       if (door.isVertical) {
         sprite.setScale(DOOR_VERTICAL_SIZE_X / DOOR_VERTICAL_TEXTURE_SIZE_X, DOOR_VERTICAL_SIZE_Y / DOOR_VERTICAL_TEXTURE_SIZE_Y);
+        shift = sf::Vector2f(0.0f, -TILE_SIZE / 2);
       } else { // To @jube
         sprite.setScale(DOOR_HORIZONTAL_SIZE_X / DOOR_HORIZONTAL_TEXTURE_SIZE_X, DOOR_HORIZONTAL_SIZE_Y / DOOR_HORIZONTAL_TEXTURE_SIZE_Y);
       }
 
       sprite.setTexture(*door.texture);
-      sprite.setPosition(door.pos);
+      sprite.setPosition(door.pos + shift);
 
       window.draw(sprite);
     }
