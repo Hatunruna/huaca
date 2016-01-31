@@ -18,6 +18,7 @@ namespace huaca {
     game::EventStatus onRunePressedEvent(game::EventType type, game::Event *event);
     game::EventStatus onFailSequenceEvent(game::EventType type, game::Event *event);
     game::EventStatus onPortalDropEvent(game::EventType type, game::Event *event);
+    game::EventStatus onNewLevelEvent(game::EventType type, game::Event *event);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;

@@ -26,6 +26,7 @@ namespace huaca {
     gEventManager().registerHandler<RunePressedEvent>(&ItemHUD::onRunePressedEvent, this);
     gEventManager().registerHandler<FailSequenceEvent>(&ItemHUD::onFailSequenceEvent, this);
     gEventManager().registerHandler<PortalDropEvent>(&ItemHUD::onPortalDropEvent, this);
+    gEventManager().registerHandler<NewLevelEvent>(&ItemHUD::onNewLevelEvent, this);
 
     // Load texture
     m_portalTexture = gResourceManager().getTexture("images/portal.png");
@@ -121,6 +122,11 @@ namespace huaca {
       m_portal1 = false;
     }
 
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus ItemHUD::onNewLevelEvent(game::EventType type, game::Event *event) {
+    clear();
     return game::EventStatus::KEEP;
   }
 

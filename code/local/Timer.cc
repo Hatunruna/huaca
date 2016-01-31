@@ -10,7 +10,12 @@ namespace huaca {
   , m_totalTime(time)
   , m_remainingTime(time)
   {
+    gEventManager().registerHandler<NewLevelEvent>(&Timer::onNewLevelEvent, this);
+  }
 
+  game::EventStatus Timer::onNewLevelEvent(game::EventType type, game::Event *event) {
+    m_totalTime = m_remainingTime;
+    return game::EventStatus::KEEP;
   }
 
   void Timer::update(float dt) {

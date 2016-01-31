@@ -174,7 +174,6 @@ int main(int argc, char *argv[]) {
       levelGenerator.createGroundManager(groundManager);
       levelGenerator.createItemManager(itemManager);
       levelGenerator.createWallManager(wallManager);
-      itemManager.clear();
     }
 
     // input
