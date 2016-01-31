@@ -1,5 +1,7 @@
 #include "SoundManager.h"
 
+#include <iostream>
+
 #include "Singletons.h"
 
 namespace huaca {
@@ -11,18 +13,26 @@ namespace huaca {
       auto buffer = gResourceManager().getSoundBuffer("sounds/step.wav");
       m_stepSound.setBuffer(*buffer);
       m_stepSound.setLoop(true);
-      m_stepSound.setVolume(75.0f);
+      m_stepSound.setVolume(25.0f);
     }
 
     {
       auto buffer = gResourceManager().getSoundBuffer("sounds/theme1.wav");
       m_themeSound.setBuffer(*buffer);
       m_themeSound.setLoop(true);
+      m_themeSound.setVolume(50.0f);
+    }
+
+    {
+      auto buffer = gResourceManager().getSoundBuffer("sounds/fail.wav");
+      m_failSound.setBuffer(*buffer);
+      m_failSound.setVolume(100.0f);
     }
 
     // Register event 
     gEventManager().registerHandler<HeroRunningEvent>(&SoundManager::onHeroRunningEvent, this);
     gEventManager().registerHandler<NewLevelEvent>(&SoundManager::onNewLevelEvent, this);
+    gEventManager().registerHandler<FailSequenceEvent>(&SoundManager::onFailSequenceEvent, this);
   }
 
   game::EventStatus SoundManager::onHeroRunningEvent(game::EventType type, game::Event *event) {
@@ -45,6 +55,16 @@ namespace huaca {
   game::EventStatus SoundManager::onNewLevelEvent(game::EventType type, game::Event *event) {
 
     m_themeSound.play();
+
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus SoundManager::onFailSequenceEvent(game::EventType type, game::Event *event) {
+    
+
+    if (m_failSound.getStatus() != sf::SoundSource::Playing) {
+      m_failSound.play();
+    }
 
     return game::EventStatus::KEEP;
   }
