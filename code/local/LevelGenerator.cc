@@ -131,6 +131,12 @@ namespace huaca {
     m_key2Pos = {SHIFT + 5, SHIFT + 2};
     m_key3Pos = {SHIFT + 6, SHIFT + 2};
 
+    // Set door 
+    m_door0Pos = {SHIFT + 1, SHIFT + 3};
+    m_door1Pos = {SHIFT + 2, SHIFT + 3};
+    m_door2Pos = {SHIFT + 2, SHIFT + 2};
+    m_door3Pos = {SHIFT + 1, SHIFT + 2};
+
     // Set the hero position
     {
       NewLevelEvent event;
@@ -567,6 +573,12 @@ namespace huaca {
     manager.addKey(m_key1Pos);
     manager.addKey(m_key2Pos);
     manager.addKey(m_key3Pos);
+
+    // Add doors
+    manager.addDoor(m_door0Pos, true);
+    manager.addDoor(m_door1Pos, true);
+    manager.addDoor(m_door2Pos, true);
+    manager.addDoor(m_door3Pos, true);
 
     return manager;
   }

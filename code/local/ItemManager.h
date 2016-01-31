@@ -21,7 +21,13 @@ namespace huaca {
   };
 
   struct Door {
-
+    sf::Texture *texture;
+    sf::Vector2f pos;
+    sf::FloatRect hitbox;
+    unsigned int num;
+    bool isActive;
+    bool isOpen;
+    bool isVertical;
   };
 
   struct Portal {
@@ -33,6 +39,7 @@ namespace huaca {
     ItemManager();
 
     void addKey(sf::Vector2i pos);
+    void addDoor(sf::Vector2i pos, bool isVertical);
 
     game::EventStatus onHeroPositionEvent(game::EventType type, game::Event *event);
 
@@ -50,6 +57,16 @@ namespace huaca {
     sf::Texture *m_bronzeKeyTexture;
     sf::Texture *m_silverKeyTexture;
     sf::Texture *m_goldKeyTexture;
+
+    unsigned int m_currentDoor;
+    sf::Texture *m_ironDoorVerticalTexture;
+    sf::Texture *m_bronzeDoorVerticalTexture;
+    sf::Texture *m_silverDoorVerticalTexture;
+    sf::Texture *m_goldDoorVerticalTexture;
+    sf::Texture *m_ironDoorHorizontalTexture;
+    sf::Texture *m_bronzeDoorHorizontalTexture;
+    sf::Texture *m_silverDoorHorizontalTexture;
+    sf::Texture *m_goldDoorHorizontalTexture;
   };
 
 }

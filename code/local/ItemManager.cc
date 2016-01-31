@@ -11,9 +11,15 @@ namespace huaca {
   static constexpr float KEY_SIZE = 30.0f;
   static constexpr float KEY_TEXTURE_SIZE = 64.0f;
 
+  static constexpr float DOOR_VERTICAL_SIZE_X = 6.0f;
+  static constexpr float DOOR_VERTICAL_SIZE_Y = 64.0f;
+  static constexpr float DOOR_VERTICAL_TEXTURE_SIZE_X = 35.0f;
+  static constexpr float DOOR_VERTICAL_TEXTURE_SIZE_Y = 256.0f;
+
   ItemManager::ItemManager()
   : game::Entity(2)
-  , m_currentKey(0) {
+  , m_currentKey(0)
+  , m_currentDoor(0) {
     // Load resources
     {
       auto texture = gResourceManager().getTexture("images/key_iron.png");
@@ -37,6 +43,54 @@ namespace huaca {
       auto texture = gResourceManager().getTexture("images/key_gold.png");
       texture->setSmooth(true);
       m_goldKeyTexture = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/door_iron_vertical.png");
+      texture->setSmooth(true);
+      m_ironDoorVerticalTexture = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/door_bronze_vertical.png");
+      texture->setSmooth(true);
+      m_bronzeDoorVerticalTexture = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/door_silver_vertical.png");
+      texture->setSmooth(true);
+      m_silverDoorVerticalTexture = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/door_gold_vertical.png");
+      texture->setSmooth(true);
+      m_goldDoorVerticalTexture = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/door_iron.png");
+      texture->setSmooth(true);
+      m_ironDoorHorizontalTexture = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/door_bronze.png");
+      texture->setSmooth(true);
+      m_bronzeDoorHorizontalTexture = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/door_silver.png");
+      texture->setSmooth(true);
+      m_silverDoorHorizontalTexture = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/door_gold.png");
+      texture->setSmooth(true);
+      m_goldDoorHorizontalTexture = texture;
     }
 
     // Register event 
@@ -78,6 +132,58 @@ namespace huaca {
     ++m_currentKey;
   }
 
+  void ItemManager::addDoor(sf::Vector2i pos, bool isVertical) {
+    Door door;
+
+    switch (m_currentDoor) {
+    case 0:
+      if (isVertical) {
+        door.texture = m_ironDoorVerticalTexture;
+      } else { // To @jube
+        door.texture = m_silverDoorHorizontalTexture;
+      }
+      break;
+
+    case 1:
+      if (isVertical) {
+        door.texture = m_bronzeDoorVerticalTexture;
+      } else { // To @jube
+        door.texture = m_silverDoorHorizontalTexture;
+      }
+      break;
+
+    case 2:
+      if (isVertical) {
+        door.texture = m_silverDoorVerticalTexture;
+      } else { // To @jube
+        door.texture = m_silverDoorHorizontalTexture;
+      }
+      break;
+
+    case 3:
+      if (isVertical) {
+        door.texture = m_goldDoorVerticalTexture;
+      } else { // To @jube
+        door.texture = m_silverDoorHorizontalTexture;
+      }
+      break;
+
+    default:
+      assert(false);
+    }
+
+    door.pos = sf::Vector2f(pos.x * TILE_SIZE, pos.y * TILE_SIZE);
+    door.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, KEY_SIZE, KEY_SIZE);
+    door.num = m_currentDoor;
+    door.isActive = true;
+    door.isOpen = false;
+    door.isVertical = isVertical;
+
+    m_doors.push_back(door);
+
+    ++m_currentDoor;
+  }
+
   game::EventStatus ItemManager::onHeroPositionEvent(game::EventType type, game::Event *event) {
     auto positionEvent = static_cast<HeroPositionEvent *>(event);
     for (Key& key : m_keys) {
@@ -95,6 +201,7 @@ namespace huaca {
   }
 
   void ItemManager::update(float dt) {
+    // Update keys
     for (Key& key : m_keys) {
       if (key.isLooted && key.isActive) {
         key.isActive = false;
@@ -121,6 +228,25 @@ namespace huaca {
 
       sprite.setTexture(*key.texture);
       sprite.setPosition(key.pos);
+
+      window.draw(sprite);
+    }
+
+    // Render the doors
+    for (Door& door : m_doors) {
+      if (!door.isActive) {
+        continue;
+      }
+
+      sf::Sprite sprite;
+      if (door.isVertical) {
+        sprite.setScale(DOOR_VERTICAL_SIZE_X / DOOR_VERTICAL_TEXTURE_SIZE_X, DOOR_VERTICAL_SIZE_Y / DOOR_VERTICAL_TEXTURE_SIZE_Y);
+      } else { // To @jube
+        sprite.setScale(KEY_SIZE / KEY_TEXTURE_SIZE, KEY_SIZE / KEY_TEXTURE_SIZE);
+      }
+
+      sprite.setTexture(*door.texture);
+      sprite.setPosition(door.pos);
 
       window.draw(sprite);
     }
