@@ -127,6 +127,9 @@ namespace huaca {
 
     // Set key 
     m_key0Pos = {SHIFT + 6, SHIFT + 3};
+    m_key1Pos = {SHIFT + 5, SHIFT + 3};
+    m_key2Pos = {SHIFT + 5, SHIFT + 2};
+    m_key3Pos = {SHIFT + 6, SHIFT + 2};
 
     // Set the hero position
     {
@@ -561,6 +564,9 @@ namespace huaca {
 
     // Add the key
     manager.addKey(m_key0Pos);
+    manager.addKey(m_key1Pos);
+    manager.addKey(m_key2Pos);
+    manager.addKey(m_key3Pos);
 
     return manager;
   }
