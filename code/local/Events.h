@@ -33,6 +33,12 @@ namespace huaca {
     static constexpr game::EventType type = "ResetLevelEvent"_type;
   };
 
+  struct RunePressedEvent : public game::Event {
+    static constexpr game::EventType type = "RunePressedEvent"_type;
+
+    unsigned int runeNum;
+  };
+
 }
 
 

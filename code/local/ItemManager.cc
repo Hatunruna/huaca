@@ -103,27 +103,27 @@ namespace huaca {
     }
 
     {
-      auto texture = gResourceManager().getTexture("images/button_green.png");
+      auto texture = gResourceManager().getTexture("images/rune0_yellow.png");
       texture->setSmooth(true);
-      m_buttonGreen = texture;
+      m_rune0Texture = texture;
     }
 
     {
-      auto texture = gResourceManager().getTexture("images/button_purple.png");
+      auto texture = gResourceManager().getTexture("images/rune1_red.png");
       texture->setSmooth(true);
-      m_buttonPurple = texture;
+      m_rune1Texture = texture;
     }
 
     {
-      auto texture = gResourceManager().getTexture("images/button_red.png");
+      auto texture = gResourceManager().getTexture("images/rune2_green.png");
       texture->setSmooth(true);
-      m_buttonRed = texture;
+      m_rune2Texture = texture;
     }
 
     {
-      auto texture = gResourceManager().getTexture("images/button_yellow.png");
+      auto texture = gResourceManager().getTexture("images/rune3_purple.png");
       texture->setSmooth(true);
-      m_buttonYellow = texture;
+      m_rune3Texture = texture;
     }
 
     // Register event 
@@ -231,19 +231,19 @@ namespace huaca {
 
     switch (m_currentRune) {
     case 0:
-      rune.texture = m_buttonGreen;
+      rune.texture = m_rune0Texture;
       break;
 
     case 1:
-      rune.texture = m_buttonPurple;
+      rune.texture = m_rune1Texture;
       break;
 
     case 2:
-      rune.texture = m_buttonRed;
+      rune.texture = m_rune2Texture;
       break;
 
     case 3:
-      rune.texture = m_buttonYellow;
+      rune.texture = m_rune3Texture;
       break;
 
     default:
@@ -256,10 +256,9 @@ namespace huaca {
       pos.y * TILE_SIZE + TILE_SIZE / 2 - RUNE_SIZE / 2,
       RUNE_SIZE, RUNE_SIZE);
 
-    /*rune.pos = sf::Vector2f(pos.x * TILE_SIZE, pos.y * TILE_SIZE);
-    rune.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, RUNE_SIZE, RUNE_SIZE);*/
-    rune.num = m_currentKey;
+    rune.num = m_currentRune;
     rune.isActive = false;
+    rune.isPressed = false;
 
     m_runes.push_back(rune);
 
@@ -340,6 +339,18 @@ namespace huaca {
       }
     }
 
+    // Collisions with runes
+    for (Rune& rune : m_runes) {
+      if (rune.isActive) {
+        continue;
+      }
+
+      sf::FloatRect hitboxHero = Hero::hitboxFromPosition(positionEvent->pos);
+      if (hitboxHero.intersects(rune.hitbox)) {
+        rune.isPressed = true;
+      }
+    }
+
     return game::EventStatus::KEEP;
   }
 
@@ -375,6 +386,23 @@ namespace huaca {
         {
           KeyLootEvent event;
           event.keyNum = key.num;
+
+          gEventManager().triggerEvent(&event);
+        }
+      }
+    }
+
+    // Update keys
+    for (Rune& rune : m_runes) {
+      if (rune.isPressed) {
+        rune.isPressed = false;
+
+        // TODO CHECK COMBINAISON HERE
+        
+        {
+          rune.isActive = true;
+          RunePressedEvent event;
+          event.runeNum = rune.num;
 
           gEventManager().triggerEvent(&event);
         }

@@ -1,6 +1,7 @@
 #include "ItemHUD.h"
 
 #include <cassert>
+#include <iostream>
 
 #include "Singletons.h"
 
@@ -22,6 +23,7 @@ namespace huaca {
     // Register event 
     gEventManager().registerHandler<KeyLootEvent>(&ItemHUD::onKeyLootEvent, this);
     gEventManager().registerHandler<ResetLevelEvent>(&ItemHUD::onResetLevelEvent, this);
+    gEventManager().registerHandler<RunePressedEvent>(&ItemHUD::onRunePressedEvent, this);
 
     // Load texture
     m_key0Texture = gResourceManager().getTexture("images/key_iron.png");
@@ -53,6 +55,33 @@ namespace huaca {
 
     case 3:
       m_key3 = true;
+      break;
+
+    default:
+      assert(false);
+    }
+
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus ItemHUD::onRunePressedEvent(game::EventType type, game::Event *event) {
+    auto eventRune = static_cast<RunePressedEvent *>(event);
+
+    switch (eventRune->runeNum) {
+    case 0:
+      m_rune0 = true;
+      break;
+
+    case 1:
+      m_rune1 = true;
+      break;
+
+    case 2:
+      m_rune2 = true;
+      break;
+
+    case 3:
+      m_rune3 = true;
       break;
 
     default:

@@ -22,6 +22,7 @@ namespace huaca {
     sf::FloatRect hitbox;
     unsigned int num;
     bool isActive;
+    bool isPressed;
   };
 
   struct Door {
@@ -76,10 +77,11 @@ namespace huaca {
     sf::Texture *m_goldDoorHorizontalTexture;
 
     unsigned int m_currentRune;
-    sf::Texture *m_buttonGreen;
-    sf::Texture *m_buttonPurple;
-    sf::Texture *m_buttonRed;
-    sf::Texture *m_buttonYellow;
+    sf::Texture *m_rune0Texture;
+    sf::Texture *m_rune1Texture;
+    sf::Texture *m_rune2Texture;
+    sf::Texture *m_rune3Texture;
+    bool m_resetAllRunes;
   };
 
 }
