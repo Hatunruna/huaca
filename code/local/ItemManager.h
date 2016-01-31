@@ -17,7 +17,12 @@ namespace huaca {
   };
 
   struct Rune {
-
+    sf::Texture *texture;
+    sf::Vector2f pos;
+    sf::FloatRect hitbox;
+    unsigned int num;
+    bool isActive;
+    bool isPressed;
   };
 
   struct Door {
@@ -39,10 +44,11 @@ namespace huaca {
 
   class ItemManager : public game::Entity {
   public:
-    ItemManager();
+    ItemManager(const int runeOrder[4]);
 
     void addKey(sf::Vector2i pos);
     void addDoor(sf::Vector2i pos, bool isVertical);
+    void addRune(sf::Vector2i pos);
 
     game::EventStatus onHeroPositionEvent(game::EventType type, game::Event *event);
     game::EventStatus onKeyLootEvent(game::EventType type, game::Event *event);
@@ -72,6 +78,19 @@ namespace huaca {
     sf::Texture *m_bronzeDoorHorizontalTexture;
     sf::Texture *m_silverDoorHorizontalTexture;
     sf::Texture *m_goldDoorHorizontalTexture;
+
+    unsigned int m_currentRune;
+    sf::Texture *m_rune0Texture;
+    sf::Texture *m_rune1Texture;
+    sf::Texture *m_rune2Texture;
+    sf::Texture *m_rune3Texture;
+    bool m_resetAllRunes;
+
+    int m_runeOrder[4];
+    int m_currentOrder;
+
+  private:
+    void clearRunes();
   };
 
 }

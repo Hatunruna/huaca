@@ -95,7 +95,7 @@ namespace huaca {
       cell.tile = 1;
       m_ground[i][10 + SHIFT] = cell;
     }
-    //Couloir 2
+    //Couloir 2			// Take of when TP is there
     for (int i = 17 + SHIFT; i < 20 + SHIFT; ++i) {
         Cell cell;
 
@@ -126,20 +126,33 @@ namespace huaca {
     }
 
     // Set key 
-    m_key0Pos = {SHIFT + 6, SHIFT + 3};
-    m_key1Pos = {SHIFT + 5, SHIFT + 3};
-    m_key2Pos = {SHIFT + 5, SHIFT + 2};
-    m_key3Pos = {SHIFT + 6, SHIFT + 2};
+    m_key0Pos = {SHIFT + 6, SHIFT + 2};//first
+    m_key1Pos = {SHIFT + 20, SHIFT + 10};//third
+    m_key2Pos = {SHIFT + 26, SHIFT + 0};//second
+    m_key3Pos = {SHIFT + 0, SHIFT + 12};//fourth
 
     // Set door 
-    m_door0Pos = {SHIFT + 1, SHIFT + 3};
-    m_door1Pos = {SHIFT + 2, SHIFT + 3};
-    m_door2Pos = {SHIFT + 2, SHIFT + 2};
-    m_door3Pos = {SHIFT + 1, SHIFT + 2};
+    m_door0Pos = {SHIFT + 8, SHIFT + 2};
+    m_door1Pos = {SHIFT + 18, SHIFT + 10};
+    m_door2Pos = {SHIFT + 23, SHIFT + 6};
+    m_door3Pos = {SHIFT + 3, SHIFT + 6};
+    
     m_door0Vertical = true;
     m_door1Vertical = true;
-    m_door2Vertical = true;
-    m_door3Vertical = true;
+    m_door2Vertical = false;
+    m_door3Vertical = false;
+
+    // Set runes
+    m_rune0Pos = {SHIFT + 1, SHIFT + 0};
+    m_rune1Pos = {SHIFT + 2, SHIFT + 0};
+    m_rune2Pos = {SHIFT + 3, SHIFT + 6};
+    m_rune3Pos = {SHIFT + 4, SHIFT + 0};
+
+    // Set runes 
+    m_runeOrder[0] = 0;
+    m_runeOrder[1] = 1;
+    m_runeOrder[2] = 2;
+    m_runeOrder[3] = 3;
 
     // Set the hero position
     {
@@ -583,7 +596,7 @@ namespace huaca {
   }
 
   ItemManager LevelGenerator::getItemManager() const {
-    ItemManager manager;
+    ItemManager manager(m_runeOrder);
 
     // Add the key
     manager.addKey(m_key0Pos);
@@ -596,6 +609,12 @@ namespace huaca {
     manager.addDoor(m_door1Pos, m_door1Vertical);
     manager.addDoor(m_door2Pos, m_door2Vertical);
     manager.addDoor(m_door3Pos, m_door3Vertical);
+
+    // Add runes
+    manager.addRune(m_rune0Pos);
+    manager.addRune(m_rune1Pos);
+    manager.addRune(m_rune2Pos);
+    manager.addRune(m_rune3Pos);
 
     return manager;
   }

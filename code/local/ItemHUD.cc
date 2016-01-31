@@ -1,6 +1,7 @@
 #include "ItemHUD.h"
 
 #include <cassert>
+#include <iostream>
 
 #include "Singletons.h"
 
@@ -22,6 +23,8 @@ namespace huaca {
     // Register event 
     gEventManager().registerHandler<KeyLootEvent>(&ItemHUD::onKeyLootEvent, this);
     gEventManager().registerHandler<ResetLevelEvent>(&ItemHUD::onResetLevelEvent, this);
+    gEventManager().registerHandler<RunePressedEvent>(&ItemHUD::onRunePressedEvent, this);
+    gEventManager().registerHandler<FailSequenceEvent>(&ItemHUD::onFailSequenceEvent, this);
 
     // Load texture
     m_portalTexture = gResourceManager().getTexture("images/portal.png");
@@ -64,10 +67,44 @@ namespace huaca {
     return game::EventStatus::KEEP;
   }
 
+  game::EventStatus ItemHUD::onRunePressedEvent(game::EventType type, game::Event *event) {
+    auto eventRune = static_cast<RunePressedEvent *>(event);
+
+    switch (eventRune->runeNum) {
+    case 0:
+      m_rune0 = true;
+      break;
+
+    case 1:
+      m_rune1 = true;
+      break;
+
+    case 2:
+      m_rune2 = true;
+      break;
+
+    case 3:
+      m_rune3 = true;
+      break;
+
+    default:
+      assert(false);
+    }
+
+    return game::EventStatus::KEEP;
+  }
+
   game::EventStatus ItemHUD::onResetLevelEvent(game::EventType type, game::Event *event) {
     m_portal0 = m_portal1 = true;
     m_key0 = m_key1 = m_key2 = m_key3 = false;
     m_rune0 = m_rune1 = m_rune2 = m_rune3 = false;
+    clearRunes();
+    return game::EventStatus::KEEP;
+  }
+
+
+  game::EventStatus ItemHUD::onFailSequenceEvent(game::EventType type, game::Event *event) {
+    clearRunes();
     return game::EventStatus::KEEP;
   }
 
@@ -178,9 +215,13 @@ namespace huaca {
       window.draw(sprite);
 
     }
+  }
 
-
-
+  void ItemHUD::clearRunes() {
+    m_rune0 = false;
+    m_rune1 = false;
+    m_rune2 = false;
+    m_rune3 = false;
   }
 
 }

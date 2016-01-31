@@ -13,6 +13,8 @@ namespace huaca {
 
     game::EventStatus onKeyLootEvent(game::EventType type, game::Event *event);
     game::EventStatus onResetLevelEvent(game::EventType type, game::Event *event);
+    game::EventStatus onRunePressedEvent(game::EventType type, game::Event *event);
+    game::EventStatus onFailSequenceEvent(game::EventType type, game::Event *event);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
@@ -42,6 +44,10 @@ namespace huaca {
     bool m_rune1;
     bool m_rune2;
     bool m_rune3;
+
+  private:
+    void clearRunes();
+
   };
 
 }

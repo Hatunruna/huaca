@@ -39,6 +39,15 @@ namespace huaca {
     sf::Vector2f pos;
   };
 
+  struct RunePressedEvent : public game::Event {
+    static constexpr game::EventType type = "RunePressedEvent"_type;
+
+    unsigned int runeNum;
+  };
+
+  struct FailSequenceEvent : public game::Event {
+    static constexpr game::EventType type = "FailSequenceEvent"_type;
+  };
 
 }
 
