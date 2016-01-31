@@ -16,6 +16,7 @@ namespace huaca {
     game::EventStatus onFailSequenceEvent(game::EventType type, game::Event *event);
     game::EventStatus onRunePressedEvent(game::EventType type, game::Event *event);
     game::EventStatus onKeyLootEvent(game::EventType type, game::Event *event);
+    game::EventStatus onDoorOpeningEvent(game::EventType type, game::Event *event);
 
   private: 
     sf::Sound m_stepSound;
@@ -31,6 +32,8 @@ namespace huaca {
     sf::Sound m_rune3Sound;
 
     sf::Sound m_foundKeySound;
+    
+    sf::Sound m_doorSound;
   };
 
 }
