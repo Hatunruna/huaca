@@ -557,6 +557,10 @@ namespace huaca {
       sprite.setTexture(*rune.texture);
       sprite.setPosition(rune.pos);
 
+      if (rune.isActive) {
+        sprite.setColor(sf::Color(0xFF, 0xFF, 0xFF, 0x80));
+      }
+
       window.draw(sprite);
     }
 

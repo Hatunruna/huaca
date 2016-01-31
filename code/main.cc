@@ -149,7 +149,7 @@ int main(int argc, char *argv[]) {
 
   game::EntityManager hudEntities;
 
-  huaca::Timer timer(80);
+  huaca::Timer timer(120);
   hudEntities.addEntity(timer);
 
   huaca::ItemHUD itemHud;
