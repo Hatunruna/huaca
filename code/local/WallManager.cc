@@ -75,11 +75,6 @@ namespace huaca {
           continue;
         }
 
-//         std::cout << "intersects: " << inter.left << 'x' << inter.top << '@' << inter.width << 'x' << inter.height << '\n';
-//         std::cout << "x_overlap: " << x_overlap << '\n';
-//         std::cout << "y_overlap: " << y_overlap << '\n';
-//         std::cout << "pos (b): " << positionEvent->pos.x << ',' << positionEvent->pos.y << '\n';
-
         sf::Vector2f normal;
 
         if (x_overlap < y_overlap) {
@@ -99,8 +94,6 @@ namespace huaca {
 
           positionEvent->pos += normal * y_overlap;
         }
-
-//         std::cout << "pos (a): " << positionEvent->pos.x << ',' << positionEvent->pos.y << '\n';
       }
     }
 

@@ -575,10 +575,10 @@ namespace huaca {
     manager.addKey(m_key3Pos);
 
     // Add doors
-    manager.addDoor(m_door0Pos, false);
-    manager.addDoor(m_door1Pos, false);
-    manager.addDoor(m_door2Pos, false);
-    manager.addDoor(m_door3Pos, false);
+    manager.addDoor(m_door0Pos, true);
+    manager.addDoor(m_door1Pos, true);
+    manager.addDoor(m_door2Pos, true);
+    manager.addDoor(m_door3Pos, true);
 
     return manager;
   }

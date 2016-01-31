@@ -178,7 +178,11 @@ namespace huaca {
     }
 
     door.pos = sf::Vector2f(pos.x * TILE_SIZE, pos.y * TILE_SIZE);
-    door.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, KEY_SIZE, KEY_SIZE);
+    if (isVertical) {
+      door.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, DOOR_VERTICAL_SIZE_X, DOOR_VERTICAL_SIZE_Y);
+    } else {
+      door.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, DOOR_HORIZONTAL_SIZE_X, DOOR_HORIZONTAL_SIZE_Y);
+    }
     door.num = m_currentDoor;
     door.isActive = true;
     door.isOpen = false;
@@ -189,8 +193,14 @@ namespace huaca {
     ++m_currentDoor;
   }
 
+  static sf::Vector2f center(const sf::FloatRect& rect) {
+    return { rect.left + rect.width / 2, rect.top + rect.height / 2 };
+  }
+
   game::EventStatus ItemManager::onHeroPositionEvent(game::EventType type, game::Event *event) {
     auto positionEvent = static_cast<HeroPositionEvent *>(event);
+    
+    // Collisions with keys
     for (Key& key : m_keys) {
       if (!key.isActive) {
         continue;
@@ -199,6 +209,57 @@ namespace huaca {
       sf::FloatRect hitboxHero = Hero::hitboxFromPosition(positionEvent->pos);
       if (hitboxHero.intersects(key.hitbox)) {
         key.isLooted = true;
+      }
+    }
+
+    // Collisions with doors
+    for (Door door : m_doors) {
+      auto hitboxHero = Hero::hitboxFromPosition(positionEvent->pos);
+      sf::FloatRect hitboxDoor = door.hitbox;
+
+      sf::FloatRect inter;
+
+      if (hitboxDoor.intersects(hitboxHero, inter)) {
+
+        sf::Vector2f n = center(hitboxDoor) - center(hitboxHero);
+
+        float door_extent = hitboxDoor.width / 2.0f;
+        float hero_extent = hitboxHero.width / 2.0f;
+
+        float x_overlap = door_extent + hero_extent - std::abs(n.x);
+
+        if (x_overlap <= 0) {
+          continue;
+        }
+
+        door_extent = hitboxDoor.height / 2.0f;
+        hero_extent = hitboxHero.height / 2.0f;
+        
+        float y_overlap = door_extent + hero_extent - std::abs(n.y);
+
+        if (y_overlap <= 0) {
+          continue;
+        }
+
+        sf::Vector2f normal;
+
+        if (x_overlap < y_overlap) {
+          if (n.x < 0) {
+            normal = {  1.0f, 0.0f };
+          } else {
+            normal = { -1.0f, 0.0f };
+          }
+
+          positionEvent->pos += normal * x_overlap;
+        } else {
+          if (n.y < 0) {
+            normal = { 0.0f,  1.0f };
+          } else {
+            normal = { 0.0f, -1.0f };
+          }
+
+          positionEvent->pos += normal * y_overlap;
+        }
       }
     }
 

@@ -1,6 +1,5 @@
 #include "Hero.h"
 
-#include <iostream>
 #include <cassert>
 
 #include "Constants.h"
@@ -175,8 +174,6 @@ namespace huaca {
 
   game::EventStatus Hero::onNewLevelEvent(game::EventType type, game::Event *event) {
     auto positionEvent = static_cast<NewLevelEvent *>(event);
-
-    std::cout << positionEvent->posHero.x << " x " << positionEvent->posHero.y << std::endl;
 
     m_pos = positionEvent->posHero;
 
