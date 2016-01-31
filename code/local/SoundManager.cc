@@ -20,13 +20,12 @@ namespace huaca {
       auto buffer = gResourceManager().getSoundBuffer("sounds/theme1.wav");
       m_themeSound.setBuffer(*buffer);
       m_themeSound.setLoop(true);
-      m_themeSound.setVolume(15.0f);
+      m_themeSound.setVolume(30.0f);
     }
 
     {
       auto buffer = gResourceManager().getSoundBuffer("sounds/fail.wav");
       m_failSound.setBuffer(*buffer);
-      m_failSound.setVolume(100.0f);
     }
 
     {
@@ -49,11 +48,18 @@ namespace huaca {
       m_rune3Sound.setBuffer(*buffer);
     }
 
+    {
+      auto buffer = gResourceManager().getSoundBuffer("sounds/key_found.wav");
+      m_foundKeySound.setBuffer(*buffer);
+      m_foundKeySound.setVolume(30.0f);
+    }
+
     // Register event 
     gEventManager().registerHandler<HeroRunningEvent>(&SoundManager::onHeroRunningEvent, this);
     gEventManager().registerHandler<NewLevelEvent>(&SoundManager::onNewLevelEvent, this);
     gEventManager().registerHandler<FailSequenceEvent>(&SoundManager::onFailSequenceEvent, this);
     gEventManager().registerHandler<RunePressedEvent>(&SoundManager::onRunePressedEvent, this);
+    gEventManager().registerHandler<KeyLootEvent>(&SoundManager::onKeyLootEvent, this);
   }
 
   game::EventStatus SoundManager::onHeroRunningEvent(game::EventType type, game::Event *event) {
@@ -124,4 +130,11 @@ namespace huaca {
     return game::EventStatus::KEEP;
   }
 
+  game::EventStatus SoundManager::onKeyLootEvent(game::EventType type, game::Event *event) {
+    if (m_foundKeySound.getStatus() != sf::SoundSource::Playing) {
+      m_foundKeySound.play();
+    }
+
+    return game::EventStatus::KEEP;
+  }
 }
