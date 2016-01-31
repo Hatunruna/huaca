@@ -141,6 +141,12 @@ namespace huaca {
     m_door2Vertical = true;
     m_door3Vertical = true;
 
+    // Set runes
+    m_rune0Pos = {SHIFT + 1, SHIFT + 0};
+    m_rune1Pos = {SHIFT + 2, SHIFT + 0};
+    m_rune2Pos = {SHIFT + 3, SHIFT + 0};
+    m_rune3Pos = {SHIFT + 4, SHIFT + 0};
+
     // Set the hero position
     {
       NewLevelEvent event;
@@ -583,6 +589,12 @@ namespace huaca {
     manager.addDoor(m_door1Pos, m_door1Vertical);
     manager.addDoor(m_door2Pos, m_door2Vertical);
     manager.addDoor(m_door3Pos, m_door3Vertical);
+
+    // Add runes
+    manager.addRune(m_rune0Pos);
+    manager.addRune(m_rune1Pos);
+    manager.addRune(m_rune2Pos);
+    manager.addRune(m_rune3Pos);
 
     return manager;
   }

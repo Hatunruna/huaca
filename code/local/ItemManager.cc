@@ -21,10 +21,14 @@ namespace huaca {
   static constexpr float DOOR_HORIZONTAL_TEXTURE_SIZE_X = 256.0f;
   static constexpr float DOOR_HORIZONTAL_TEXTURE_SIZE_Y = 128.0f;
 
+  static constexpr float RUNE_SIZE = 32.0f;
+  static constexpr float RUNE_TEXTURE_SIZE = 64.0f;
+
   ItemManager::ItemManager()
   : game::Entity(2)
   , m_currentKey(0)
-  , m_currentDoor(0) {
+  , m_currentDoor(0) 
+  , m_currentRune(0) {
     // Load resources
     {
       auto texture = gResourceManager().getTexture("images/key_iron.png");
@@ -96,6 +100,30 @@ namespace huaca {
       auto texture = gResourceManager().getTexture("images/door_gold.png");
       texture->setSmooth(true);
       m_goldDoorHorizontalTexture = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/button_green.png");
+      texture->setSmooth(true);
+      m_buttonGreen = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/button_purple.png");
+      texture->setSmooth(true);
+      m_buttonPurple = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/button_red.png");
+      texture->setSmooth(true);
+      m_buttonRed = texture;
+    }
+
+    {
+      auto texture = gResourceManager().getTexture("images/button_yellow.png");
+      texture->setSmooth(true);
+      m_buttonYellow = texture;
     }
 
     // Register event 
@@ -192,6 +220,40 @@ namespace huaca {
     m_doors.push_back(door);
 
     ++m_currentDoor;
+  }
+
+  void ItemManager::addRune(sf::Vector2i pos) {
+    Rune rune;
+
+    switch (m_currentRune) {
+    case 0:
+      rune.texture = m_buttonGreen;
+      break;
+
+    case 1:
+      rune.texture = m_buttonPurple;
+      break;
+
+    case 2:
+      rune.texture = m_buttonRed;
+      break;
+
+    case 3:
+      rune.texture = m_buttonYellow;
+      break;
+
+    default:
+      assert(false);
+    }
+
+    rune.pos = sf::Vector2f(pos.x * TILE_SIZE, pos.y * TILE_SIZE);
+    rune.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, KEY_SIZE, KEY_SIZE);
+    rune.num = m_currentKey;
+    rune.isActive = false;
+
+    m_runes.push_back(rune);
+
+    ++m_currentRune;
   }
 
   static sf::Vector2f center(const sf::FloatRect& rect) {
@@ -327,6 +389,16 @@ namespace huaca {
 
       sprite.setTexture(*door.texture);
       sprite.setPosition(door.pos);
+
+      window.draw(sprite);
+    }
+
+    // Render the runes
+    for (Rune& rune : m_runes) {
+      sf::Sprite sprite;
+      sprite.setScale(RUNE_SIZE / RUNE_TEXTURE_SIZE, RUNE_SIZE / RUNE_TEXTURE_SIZE);
+      sprite.setTexture(*rune.texture);
+      sprite.setPosition(rune.pos);
 
       window.draw(sprite);
     }

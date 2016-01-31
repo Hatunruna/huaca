@@ -17,7 +17,11 @@ namespace huaca {
   };
 
   struct Rune {
-
+    sf::Texture *texture;
+    sf::Vector2f pos;
+    sf::FloatRect hitbox;
+    unsigned int num;
+    bool isActive;
   };
 
   struct Door {
@@ -40,6 +44,7 @@ namespace huaca {
 
     void addKey(sf::Vector2i pos);
     void addDoor(sf::Vector2i pos, bool isVertical);
+    void addRune(sf::Vector2i pos);
 
     game::EventStatus onHeroPositionEvent(game::EventType type, game::Event *event);
     game::EventStatus onKeyLootEvent(game::EventType type, game::Event *event);
@@ -68,6 +73,12 @@ namespace huaca {
     sf::Texture *m_bronzeDoorHorizontalTexture;
     sf::Texture *m_silverDoorHorizontalTexture;
     sf::Texture *m_goldDoorHorizontalTexture;
+
+    unsigned int m_currentRune;
+    sf::Texture *m_buttonGreen;
+    sf::Texture *m_buttonPurple;
+    sf::Texture *m_buttonRed;
+    sf::Texture *m_buttonYellow;
   };
 
 }
