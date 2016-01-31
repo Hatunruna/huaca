@@ -24,6 +24,7 @@ namespace huaca {
     gEventManager().registerHandler<KeyLootEvent>(&ItemHUD::onKeyLootEvent, this);
     gEventManager().registerHandler<ResetLevelEvent>(&ItemHUD::onResetLevelEvent, this);
     gEventManager().registerHandler<RunePressedEvent>(&ItemHUD::onRunePressedEvent, this);
+    gEventManager().registerHandler<FailSequenceEvent>(&ItemHUD::onFailSequenceEvent, this);
 
     // Load texture
     m_key0Texture = gResourceManager().getTexture("images/key_iron.png");
@@ -95,6 +96,13 @@ namespace huaca {
     m_portal0 = m_portal1 = false;
     m_key0 = m_key1 = m_key2 = m_key3 = false;
     m_rune0 = m_rune1 = m_rune2 = m_rune3 = false;
+    clearRunes();
+    return game::EventStatus::KEEP;
+  }
+
+
+  game::EventStatus ItemHUD::onFailSequenceEvent(game::EventType type, game::Event *event) {
+    clearRunes();
     return game::EventStatus::KEEP;
   }
 
@@ -204,10 +212,14 @@ namespace huaca {
         window.draw(shape);
 
       }
-
     }
+  }
 
-
+  void ItemHUD::clearRunes() {
+    m_rune0 = false;
+    m_rune1 = false;
+    m_rune2 = false;
+    m_rune3 = false;
   }
 
 }

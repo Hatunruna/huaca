@@ -24,11 +24,12 @@ namespace huaca {
   static constexpr float RUNE_SIZE = 32.0f;
   static constexpr float RUNE_TEXTURE_SIZE = 64.0f;
 
-  ItemManager::ItemManager()
+  ItemManager::ItemManager(const int runeOrder[4])
   : game::Entity(2)
   , m_currentKey(0)
   , m_currentDoor(0) 
-  , m_currentRune(0) {
+  , m_currentRune(0)
+  , m_currentOrder(0) {
     // Load resources
     {
       auto texture = gResourceManager().getTexture("images/key_iron.png");
@@ -130,6 +131,9 @@ namespace huaca {
     gEventManager().registerHandler<HeroPositionEvent>(&ItemManager::onHeroPositionEvent, this);
     gEventManager().registerHandler<KeyLootEvent>(&ItemManager::onKeyLootEvent, this);
     gEventManager().registerHandler<ResetLevelEvent>(&ItemManager::onResetLevelEvent, this);
+
+    // Set the sequence rune
+    std::copy(runeOrder, runeOrder + 4, m_runeOrder);
   }
 
   void ItemManager::addKey(sf::Vector2i pos) {
@@ -374,6 +378,8 @@ namespace huaca {
       door.isOpen = false;
     }
 
+    clearRunes();
+
     return game::EventStatus::KEEP;
   }
 
@@ -397,14 +403,16 @@ namespace huaca {
       if (rune.isPressed) {
         rune.isPressed = false;
 
-        // TODO CHECK COMBINAISON HERE
-        
-        {
+        if (m_runeOrder[m_currentOrder] == static_cast<int>(rune.num)) {
           rune.isActive = true;
           RunePressedEvent event;
           event.runeNum = rune.num;
 
           gEventManager().triggerEvent(&event);
+          ++m_currentOrder;
+        }
+        else {
+          clearRunes();
         }
       }
     }
@@ -455,6 +463,20 @@ namespace huaca {
       sprite.setPosition(rune.pos);
 
       window.draw(sprite);
+    }
+  }
+
+  void ItemManager::clearRunes() {
+    m_currentRune = 0;
+    for (Rune &rune : m_runes) {
+      rune.isActive = false;
+      rune.isPressed = false;
+    }
+
+    {
+      FailSequenceEvent event;
+
+      gEventManager().triggerEvent(&event);
     }
   }
 

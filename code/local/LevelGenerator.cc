@@ -147,6 +147,12 @@ namespace huaca {
     m_rune2Pos = {SHIFT + 3, SHIFT + 6};
     m_rune3Pos = {SHIFT + 4, SHIFT + 0};
 
+    // Set runes 
+    m_runeOrder[0] = 0;
+    m_runeOrder[1] = 1;
+    m_runeOrder[2] = 2;
+    m_runeOrder[3] = 3;
+
     // Set the hero position
     {
       NewLevelEvent event;
@@ -589,7 +595,7 @@ namespace huaca {
   }
 
   ItemManager LevelGenerator::getItemManager() const {
-    ItemManager manager;
+    ItemManager manager(m_runeOrder);
 
     // Add the key
     manager.addKey(m_key0Pos);

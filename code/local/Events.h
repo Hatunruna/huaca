@@ -39,6 +39,9 @@ namespace huaca {
     unsigned int runeNum;
   };
 
+  struct FailSequenceEvent : public game::Event {
+    static constexpr game::EventType type = "FailSequenceEvent"_type;
+  };
 }
 
 

@@ -41,7 +41,7 @@ namespace huaca {
 
   class ItemManager : public game::Entity {
   public:
-    ItemManager();
+    ItemManager(const int runeOrder[4]);
 
     void addKey(sf::Vector2i pos);
     void addDoor(sf::Vector2i pos, bool isVertical);
@@ -82,6 +82,12 @@ namespace huaca {
     sf::Texture *m_rune2Texture;
     sf::Texture *m_rune3Texture;
     bool m_resetAllRunes;
+
+    int m_runeOrder[4];
+    int m_currentOrder;
+
+  private:
+    void clearRunes();
   };
 
 }
