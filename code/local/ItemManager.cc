@@ -403,6 +403,7 @@ namespace huaca {
       if (rune.isPressed) {
         rune.isPressed = false;
 
+        std::cout << m_runeOrder[m_currentOrder] << " == " << static_cast<int>(rune.num) << std::endl;
         if (m_runeOrder[m_currentOrder] == static_cast<int>(rune.num)) {
           rune.isActive = true;
           RunePressedEvent event;
@@ -412,6 +413,7 @@ namespace huaca {
           ++m_currentOrder;
         }
         else {
+
           clearRunes();
         }
       }
@@ -467,7 +469,7 @@ namespace huaca {
   }
 
   void ItemManager::clearRunes() {
-    m_currentRune = 0;
+    m_currentOrder = 0;
     for (Rune &rune : m_runes) {
       rune.isActive = false;
       rune.isPressed = false;
