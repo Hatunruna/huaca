@@ -354,6 +354,15 @@ namespace huaca {
     std::cout << "Rune 2: " << m_rune2Pos.x << ',' << m_rune2Pos.y << '\n';
     std::cout << "Rune 3: " << m_rune3Pos.x << ',' << m_rune3Pos.y << '\n';
 
+    for (int i = 0; i < 4; ++i) {
+      m_runeOrder[i] = i;
+    }
+
+    for (int k = 0; k < 20; ++k) {
+      int i = random.computeUniformInteger(0, 3);
+      int j = random.computeUniformInteger(0, 3);
+      std::swap(m_runeOrder[i], m_runeOrder[j]);
+    }
 
     // hero
     do {

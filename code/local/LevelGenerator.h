@@ -56,6 +56,8 @@ namespace huaca {
     sf::Vector2i m_rune2Pos;
     sf::Vector2i m_rune3Pos;
 
+    int m_runeOrder[4];
+
   private:
 
     void generateRooms(game::Random& random, int iMin, int iMax, int jMin, int jMax);
