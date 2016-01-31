@@ -339,12 +339,8 @@ namespace huaca {
           door.isOpen = true;
           
           // TODO music
-          sf::Sound doorSound;
-          
-          sf::SoundBuffer* buffer = gResourceManager().getSoundBuffer("sounds/step.wav");
-          doorSound.setBuffer(*buffer);
-          doorSound.setLoop(false);
-          doorSound.play();
+          DoorOpeningEvent event;
+          gEventManager().triggerEvent(&event);          
         }         
 
         sf::Vector2f normal;

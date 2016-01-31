@@ -28,11 +28,19 @@ namespace huaca {
       m_failSound.setBuffer(*buffer);
       m_failSound.setVolume(100.0f);
     }
+    
+    {
+      sf::SoundBuffer* buffer = gResourceManager().getSoundBuffer("sounds/door_open.wav");
+      m_doorSound.setBuffer(*buffer);
+      m_doorSound.setLoop(false);
+      m_doorSound.setVolume(100.0f);
+    }
 
     // Register event 
     gEventManager().registerHandler<HeroRunningEvent>(&SoundManager::onHeroRunningEvent, this);
     gEventManager().registerHandler<NewLevelEvent>(&SoundManager::onNewLevelEvent, this);
     gEventManager().registerHandler<FailSequenceEvent>(&SoundManager::onFailSequenceEvent, this);
+    gEventManager().registerHandler<DoorOpeningEvent>(&SoundManager::onDoorOpeningEvent, this);
   }
 
   game::EventStatus SoundManager::onHeroRunningEvent(game::EventType type, game::Event *event) {
@@ -64,6 +72,16 @@ namespace huaca {
 
     if (m_failSound.getStatus() != sf::SoundSource::Playing) {
       m_failSound.play();
+    }
+
+    return game::EventStatus::KEEP;
+  }
+  
+  game::EventStatus SoundManager::onDoorOpeningEvent(game::EventType type, game::Event *event) {
+    
+
+    if (m_doorSound.getStatus() != sf::SoundSource::Playing) {
+      m_doorSound.play();
     }
 
     return game::EventStatus::KEEP;
