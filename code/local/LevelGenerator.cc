@@ -125,6 +125,10 @@ namespace huaca {
       m_ground[23 + SHIFT][j] = cell;
     }
 
+    // Set key 
+    m_key0Pos = {SHIFT + 6, SHIFT + 3};
+
+    // Set the hero position
     {
       NewLevelEvent event;
 
@@ -555,6 +559,8 @@ namespace huaca {
   ItemManager LevelGenerator::getItemManager() const {
     ItemManager manager;
 
+    // Add the key
+    manager.addKey(m_key0Pos);
 
     return manager;
   }

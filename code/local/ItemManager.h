@@ -3,36 +3,48 @@
 
 #include "game/Entity.h"
 
+#include "Events.h"
+
 namespace huaca {
 
-  class Key {
+  struct Key {
+    sf::Texture *texture;
+    sf::Vector2f pos;
+    bool isActive;
+  };
+
+  struct Rune {
 
   };
 
-  class Rune {
+  struct Door {
 
   };
 
-  class Door {
-
-  };
-
-  class Portal {
+  struct Portal {
 
   };
 
   class ItemManager : public game::Entity {
   public:
+    ItemManager();
+
+    void addKey(sf::Vector2i pos);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
 
   private:
-    std::vector<Key*> m_keys;
-    std::vector<Rune*> m_runes;
-    std::vector<Door*> m_doors;
-    std::vector<Portal*> m_portals;
+    std::vector<Key> m_keys;
+    std::vector<Rune> m_runes;
+    std::vector<Door> m_doors;
+    std::vector<Portal> m_portals;
 
+    unsigned int m_currentKey;
+    sf::Texture *m_ironKeyTexture;
+    sf::Texture *m_bronzeKeyTexture;
+    sf::Texture *m_silverKeyTexture;
+    sf::Texture *m_goldKeyTexture;
   };
 
 }

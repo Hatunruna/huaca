@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
 
   huaca::SoundManager soundManager;
   huaca::Hero hero({ 1280.0f, 1280.0f });
-  
+
   game::Random random;
 
   // Generate first level
@@ -130,12 +130,14 @@ int main(int argc, char *argv[]) {
 
   // Generate the managers
   huaca::GroundManager groundManager = levelGenerator.getGroundManager();
+  huaca::ItemManager itemManager = levelGenerator.getItemManager();
   huaca::WallManager wallManager = levelGenerator.getWallManager();
 
   // add entities
 
   game::EntityManager mainEntities;
   mainEntities.addEntity(groundManager);
+  mainEntities.addEntity(itemManager);
   mainEntities.addEntity(wallManager);
 
   mainEntities.addEntity(hero);
