@@ -48,6 +48,10 @@ namespace huaca {
   struct FailSequenceEvent : public game::Event {
     static constexpr game::EventType type = "FailSequenceEvent"_type;
   };
+  
+  struct DoorOpeningEvent : public game::Event {
+    static constexpr game::EventType type = "DoorOpeningEvent"_type;
+  };
 
 }
 
