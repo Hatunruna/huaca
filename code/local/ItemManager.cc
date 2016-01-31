@@ -250,8 +250,14 @@ namespace huaca {
       assert(false);
     }
 
-    rune.pos = sf::Vector2f(pos.x * TILE_SIZE, pos.y * TILE_SIZE);
-    rune.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, KEY_SIZE, KEY_SIZE);
+    rune.pos = sf::Vector2f(pos.x * TILE_SIZE + TILE_SIZE / 2, pos.y * TILE_SIZE + TILE_SIZE / 2);
+    rune.hitbox = sf::FloatRect(
+      pos.x * TILE_SIZE + TILE_SIZE / 2 - RUNE_SIZE / 2,
+      pos.y * TILE_SIZE + TILE_SIZE / 2 - RUNE_SIZE / 2,
+      RUNE_SIZE, RUNE_SIZE);
+
+    /*rune.pos = sf::Vector2f(pos.x * TILE_SIZE, pos.y * TILE_SIZE);
+    rune.hitbox = sf::FloatRect(pos.x * TILE_SIZE, pos.y * TILE_SIZE, RUNE_SIZE, RUNE_SIZE);*/
     rune.num = m_currentKey;
     rune.isActive = false;
 
@@ -415,6 +421,7 @@ namespace huaca {
     // Render the runes
     for (Rune& rune : m_runes) {
       sf::Sprite sprite;
+      sprite.setOrigin(RUNE_TEXTURE_SIZE / 2, RUNE_TEXTURE_SIZE / 2);
       sprite.setScale(RUNE_SIZE / RUNE_TEXTURE_SIZE, RUNE_SIZE / RUNE_TEXTURE_SIZE);
       sprite.setTexture(*rune.texture);
       sprite.setPosition(rune.pos);

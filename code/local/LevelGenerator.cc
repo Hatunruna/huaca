@@ -136,7 +136,7 @@ namespace huaca {
     m_door1Pos = {SHIFT + 2, SHIFT + 3};
     m_door2Pos = {SHIFT + 2, SHIFT + 2};
     m_door3Pos = {SHIFT + 1, SHIFT + 2};
-    m_door0Vertical = true;
+    m_door0Vertical = false;
     m_door1Vertical = true;
     m_door2Vertical = true;
     m_door3Vertical = true;
@@ -144,7 +144,7 @@ namespace huaca {
     // Set runes
     m_rune0Pos = {SHIFT + 1, SHIFT + 0};
     m_rune1Pos = {SHIFT + 2, SHIFT + 0};
-    m_rune2Pos = {SHIFT + 3, SHIFT + 0};
+    m_rune2Pos = {SHIFT + 3, SHIFT + 6};
     m_rune3Pos = {SHIFT + 4, SHIFT + 0};
 
     // Set the hero position
