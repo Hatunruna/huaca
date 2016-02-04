@@ -42,10 +42,12 @@ namespace huaca {
     if(randNb > 6){
         randNb = 0;
     }
-    quad[0].texCoords = sf::Vector2f((randNb) * TILEWIDTH, 0);
-    quad[1].texCoords = sf::Vector2f((randNb + 1) * TILEWIDTH, 0);
-    quad[2].texCoords = sf::Vector2f((randNb + 1) * TILEWIDTH, TILEWIDTH);
-    quad[3].texCoords = sf::Vector2f((randNb) * TILEWIDTH, TILEWIDTH);
+
+    int x_coor = 1 + randNb * TILEWIDTH;
+    quad[0].texCoords = sf::Vector2f(x_coor, 1);
+    quad[1].texCoords = sf::Vector2f(x_coor + TILEWIDTH, 1);
+    quad[2].texCoords = sf::Vector2f(x_coor + TILEWIDTH, TILEWIDTH);
+    quad[3].texCoords = sf::Vector2f(x_coor, TILEWIDTH);
 
     for (int i = 0; i < 4; ++i) {
       m_vertices.append(quad[i]);
@@ -68,10 +70,12 @@ namespace huaca {
 
     // Define texture
     int randNb = m_random.computeUniformInteger(0,4);
-    quad[0].texCoords = sf::Vector2f((randNb) * TILEWIDTH, TILEWIDTH);
-    quad[1].texCoords = sf::Vector2f((randNb + 1) * TILEWIDTH, TILEWIDTH);
-    quad[2].texCoords = sf::Vector2f((randNb + 1) * TILEWIDTH, TILEHEIGHT + TILEWIDTH);
-    quad[3].texCoords = sf::Vector2f((randNb) * TILEWIDTH, TILEHEIGHT + TILEWIDTH);
+    int x_coor = 1 + randNb * TILEWIDTH;
+    int y_coor = 2 + TILEWIDTH;
+    quad[0].texCoords = sf::Vector2f(x_coor, y_coor);
+    quad[1].texCoords = sf::Vector2f(x_coor + TILEWIDTH, y_coor);
+    quad[2].texCoords = sf::Vector2f(x_coor + TILEWIDTH, y_coor + TILEHEIGHT);
+    quad[3].texCoords = sf::Vector2f(x_coor, y_coor + TILEHEIGHT);
 
     for (int i = 0; i < 4; ++i) {
       m_vertices.append(quad[i]);
