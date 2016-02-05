@@ -123,6 +123,7 @@ int main(int argc, char *argv[]) {
 
   game::Random random;
 
+
   // Generate first level
   huaca::LevelGenerator levelGenerator;
   levelGenerator.generateFirst();

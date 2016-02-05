@@ -44,7 +44,19 @@ target_link_libraries(huaca
   ${SFML2_LIBRARIES}
 )
 
-install(
-  TARGETS huaca
-  RUNTIME DESTINATION games
-)
+IF (WIN32)
+  add_custom_command(
+    TARGET huaca
+    POST_BUILD
+    COMMAND mkdir ARGS -p "${CMAKE_BINARY_DIR}/huaca-win64-release"
+    COMMAND cp ARGS -r "${CMAKE_SOURCE_DIR}/libs-win64/*" "${CMAKE_SOURCE_DIR}/data" "${CMAKE_BINARY_DIR}/code/*.exe" "${CMAKE_BINARY_DIR}/huaca-win64-release"
+    COMMAND zip ARGS -9r "${CMAKE_BINARY_DIR}/huaca-win64-release.zip" "huaca-win64-release"
+    COMMAND rm ARGS -rf "${CMAKE_BINARY_DIR}/huaca-win64-release"
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+  )
+ELSE(WIN32)
+  install(
+    TARGETS huaca
+    RUNTIME DESTINATION games
+  )
+ENDIF(WIN32)
