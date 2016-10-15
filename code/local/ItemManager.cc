@@ -1,6 +1,7 @@
 #include "ItemManager.h"
 
 #include <cassert>
+#include <cmath>
 #include <iostream>
 
 #include <SFML/Audio.hpp>
